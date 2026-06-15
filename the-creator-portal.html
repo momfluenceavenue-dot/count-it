@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Momfluence Avenue Creator Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a; --off-black: #0f0f0f; --card: #181818; --card2: #141414;
+    --pink: #FF2D8B; --pink-glow: rgba(255,45,139,0.15); --pink-dim: rgba(255,45,139,0.08);
+    --white: #fff; --grey: #555; --light-grey: #aaa; --border: #1e1e1e;
+    --green: #00E87A; --blue: #4D8AFF; --yellow: #FFD600; --orange: #FF6B35;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+
+  /* SCREENS */
+  .screen { display: none; min-height: 100vh; }
+  .screen.active { display: block; }
+
+  /* TICKER */
+  .ticker-wrap { background: var(--pink); overflow: hidden; white-space: nowrap; padding: 8px 0; position: sticky; top: 0; z-index: 100; }
+  .ticker { display: inline-block; animation: ticker 22s linear infinite; }
+  .ticker span { font-family: 'Bebas Neue', sans-serif; font-size: 0.8rem; letter-spacing: 0.2em; color: #000; padding: 0 2rem; }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ── WELCOME SCREEN ── */
+  #welcome { background: var(--black); }
+  .welcome-inner { max-width: 700px; margin: 0 auto; padding: 5rem 2rem; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+  .welcome-brand { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 0.4em; color: var(--pink); margin-bottom: 3rem; }
+  .welcome-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3.5rem, 10vw, 7rem); line-height: 0.88; color: var(--white); margin-bottom: 0.5rem; }
+  .welcome-title span { color: var(--pink); display: block; }
+  .welcome-sub { font-size: 1.1rem; font-weight: 300; color: var(--light-grey); line-height: 1.8; max-width: 520px; margin: 2rem 0; }
+  .welcome-sub strong { color: var(--white); }
+  .welcome-meta { display: flex; gap: 2rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+  .welcome-meta-item { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; color: var(--grey); text-transform: uppercase; display: flex; align-items: center; gap: 0.5rem; }
+  .welcome-meta-item::before { content: ''; width: 6px; height: 6px; background: var(--pink); border-radius: 50%; }
+  .start-btn { display: inline-block; background: var(--pink); color: #000; font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.2em; padding: 1.1rem 3rem; border: none; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; margin-bottom: 3rem; }
+  .start-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--pink-glow); }
+
+  /* STORY BOX */
+  .story-box { background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--pink); padding: 2rem; margin-bottom: 3rem; }
+  .story-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.3em; color: var(--pink); text-transform: uppercase; margin-bottom: 1rem; }
+  .story-text { font-size: 0.925rem; font-weight: 300; color: var(--light-grey); line-height: 1.9; }
+  .story-text strong { color: var(--white); }
+  .story-text p { margin-bottom: 1rem; }
+  .story-text p:last-child { margin-bottom: 0; }
+  .story-sig { margin-top: 1.5rem; font-size: 0.85rem; font-weight: 700; color: var(--pink); }
+
+  /* POST METHOD INTRO */
+  .post-method { background: var(--card2); border: 1px solid var(--border); padding: 2rem; margin-bottom: 2rem; }
+  .post-method-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.3em; color: var(--pink); text-transform: uppercase; margin-bottom: 0.75rem; }
+  .post-method-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--white); margin-bottom: 1rem; }
+  .post-letters { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .post-letter { background: var(--card); border: 1px solid var(--border); padding: 1rem 1.25rem; flex: 1; min-width: 120px; }
+  .pl-letter { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: var(--pink); line-height: 1; }
+  .pl-word { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: var(--white); letter-spacing: 0.05em; }
+  .pl-desc { font-size: 0.75rem; font-weight: 300; color: var(--grey); line-height: 1.5; margin-top: 0.25rem; }
+
+  /* ── DASHBOARD ── */
+  #dashboard { background: var(--black); }
+  .dash-header { padding: 2rem 2rem 1.5rem; border-bottom: 1px solid var(--border); max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .dash-brand { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.15em; color: var(--pink); }
+  .dash-progress { display: flex; align-items: center; gap: 1rem; }
+  .dash-prog-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; color: var(--grey); text-transform: uppercase; }
+  .dash-prog-bar { width: 120px; height: 4px; background: #1a1a1a; }
+  .dash-prog-fill { height: 100%; background: var(--pink); transition: width 0.4s; }
+  .dash-prog-pct { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: var(--pink); }
+
+  .dash-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1px; background: var(--border); max-width: 1000px; margin: 0 auto; }
+  .dash-card { background: var(--card); padding: 2rem; cursor: pointer; transition: background 0.15s; position: relative; overflow: hidden; }
+  .dash-card:hover { background: #161616; }
+  .dash-card.completed { opacity: 0.6; }
+  .dash-card.completed::after { content: '✓'; position: absolute; top: 1rem; right: 1rem; width: 24px; height: 24px; background: var(--green); color: #000; font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+  .dc-num { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: #1e1e1e; line-height: 1; margin-bottom: 0.5rem; }
+  .dc-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--white); letter-spacing: 0.03em; margin-bottom: 0.4rem; }
+  .dc-desc { font-size: 0.8rem; font-weight: 300; color: var(--grey); line-height: 1.6; }
+  .dc-tag { display: inline-block; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 8px; margin-top: 0.75rem; }
+  .tag-core { background: var(--pink-dim); color: var(--pink); }
+  .tag-bonus { background: rgba(0,232,122,0.12); color: var(--green); }
+  .tag-tool { background: rgba(77,138,255,0.12); color: var(--blue); }
+
+  .dash-back { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; color: var(--grey); text-transform: uppercase; background: none; border: none; cursor: pointer; padding: 1rem 2rem; transition: color 0.2s; display: flex; align-items: center; gap: 0.5rem; }
+  .dash-back:hover { color: var(--pink); }
+
+  /* ── MODULE SCREEN ── */
+  #module { background: var(--black); }
+  .module-header { padding: 1.5rem 2rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; max-width: 900px; margin: 0 auto; gap: 1rem; flex-wrap: wrap; }
+  .module-breadcrumb { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; color: var(--grey); text-transform: uppercase; }
+  .module-breadcrumb span { color: var(--pink); }
+  .module-body { max-width: 900px; margin: 0 auto; padding: 3rem 2rem 6rem; }
+  .module-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 5vw, 3.5rem); color: var(--white); line-height: 1; margin-bottom: 0.5rem; }
+  .module-post-tag { display: inline-block; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; color: var(--pink); text-transform: uppercase; border: 1px solid var(--pink); padding: 3px 10px; margin-bottom: 1.5rem; }
+  .module-intro { font-size: 1rem; font-weight: 300; color: var(--light-grey); line-height: 1.85; max-width: 680px; margin-bottom: 3rem; }
+  .module-intro strong { color: var(--white); }
+
+  /* SHARED CONTENT STYLES */
+  .content-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.35em; color: var(--pink); text-transform: uppercase; margin-bottom: 0.75rem; margin-top: 2.5rem; }
+  .content-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.8rem, 4vw, 2.8rem); color: var(--white); line-height: 1; margin-bottom: 1rem; }
+
+  /* BLOCKERS */
+  .blocker { border-bottom: 1px solid var(--border); }
+  .blocker-hdr { display: grid; grid-template-columns: 56px 1fr auto; gap: 1rem; align-items: center; padding: 1.5rem 0; cursor: pointer; }
+  .blocker-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: #1e1e1e; line-height: 1; transition: color 0.2s; }
+  .blocker.open .blocker-num { color: var(--pink); }
+  .blocker-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--white); }
+  .blocker-arrow { color: var(--grey); transition: transform 0.3s; font-size: 0.875rem; }
+  .blocker.open .blocker-arrow { transform: rotate(180deg); color: var(--pink); }
+  .blocker-body { display: none; padding: 0 0 1.75rem 56px; }
+  .blocker.open .blocker-body { display: block; }
+  .blocker-text { font-size: 0.9rem; font-weight: 300; color: var(--light-grey); line-height: 1.8; margin-bottom: 1.25rem; }
+  .blocker-text strong { color: var(--white); }
+  .fix-box { background: var(--card2); border: 1px solid var(--border); border-left: 3px solid var(--green); padding: 1.25rem 1.5rem; }
+  .fix-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em; color: var(--green); text-transform: uppercase; margin-bottom: 0.75rem; }
+  .fix-step { font-size: 0.875rem; font-weight: 300; color: var(--light-grey); line-height: 1.7; padding-left: 1.5rem; position: relative; margin-bottom: 0.4rem; }
+  .fix-step::before { content: '→'; position: absolute; left: 0; color: var(--green); font-weight: 700; }
+  .fix-step strong { color: var(--white); }
+
+  /* AUDIT */
+  .audit-item { display: flex; align-items: center; gap: 1rem; background: var(--card); border: 1px solid var(--border); padding: 1rem 1.25rem; cursor: pointer; margin-bottom: 0.5rem; transition: border-color 0.2s; user-select: none; }
+  .audit-item.checked { border-color: var(--pink); }
+  .audit-box { width: 18px; height: 18px; border: 1.5px solid #333; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+  .audit-item.checked .audit-box { background: var(--pink); border-color: var(--pink); }
+  .audit-box::after { content: '✓'; color: #000; font-size: 0.65rem; font-weight: 700; opacity: 0; }
+  .audit-item.checked .audit-box::after { opacity: 1; }
+  .audit-text { font-size: 0.875rem; color: var(--light-grey); font-weight: 300; }
+  .audit-result { margin-top: 1.5rem; background: var(--card); border-left: 3px solid var(--pink); padding: 1.25rem 1.5rem; display: none; }
+  .audit-result.show { display: block; }
+  .audit-result p { font-size: 0.9rem; color: var(--light-grey); line-height: 1.75; }
+  .audit-result strong { color: var(--pink); }
+
+  /* BIO BUILDER */
+  .bio-field { margin-bottom: 1rem; }
+  .bio-field label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em; color: var(--pink); text-transform: uppercase; display: block; margin-bottom: 0.35rem; }
+  .bio-field small { font-size: 0.75rem; color: var(--grey); display: block; margin-bottom: 0.5rem; }
+  .bio-input { width: 100%; background: var(--card); border: 1px solid var(--border); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 0.9rem; padding: 0.85rem 1rem; outline: none; transition: border-color 0.2s; }
+  .bio-input:focus { border-color: var(--pink); }
+  .bio-input::placeholder { color: #2a2a2a; }
+  .bio-preview { background: var(--card); border: 1px solid var(--border); padding: 1.75rem; min-height: 90px; margin-top: 1.5rem; }
+  .bio-preview-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em; color: var(--grey); text-transform: uppercase; margin-bottom: 0.75rem; }
+  .bio-preview-text { font-size: 1rem; color: var(--white); line-height: 1.85; }
+  .bio-empty { color: #2a2a2a; font-style: italic; }
+  .pink-btn { background: var(--pink); color: #000; font-family: 'Bebas Neue', sans-serif; font-size: 0.9rem; letter-spacing: 0.15em; padding: 0.75rem 1.5rem; border: none; cursor: pointer; transition: opacity 0.2s; display: none; margin-top: 1rem; }
+  .pink-btn:hover { opacity: 0.85; }
+  .pink-btn.show { display: inline-block; }
+
+  /* HOOKS / CTAs */
+  .hooks-filter { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .hf-btn { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; background: transparent; border: 1px solid var(--border); color: var(--grey); cursor: pointer; transition: all 0.2s; }
+  .hf-btn.active, .hf-btn:hover { border-color: var(--pink); color: var(--pink); }
+  .hooks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1px; background: var(--border); }
+  .hook-card { background: var(--card); padding: 1.25rem; cursor: pointer; transition: background 0.15s; }
+  .hook-card:hover { background: #1a1a1a; }
+  .hook-cat { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; color: var(--pink); text-transform: uppercase; margin-bottom: 0.4rem; }
+  .hook-text { font-size: 0.875rem; color: var(--light-grey); font-weight: 300; line-height: 1.6; font-style: italic; margin-bottom: 0.75rem; }
+  .hook-copy { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; color: var(--grey); text-transform: uppercase; background: none; border: none; cursor: pointer; padding: 0; transition: color 0.2s; }
+  .hook-card:hover .hook-copy { color: var(--pink); }
+
+  /* PILLARS */
+  .pillar-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+  .pillar-card { background: var(--card); border: 1px solid var(--border); padding: 1.75rem; border-top: 3px solid var(--pink); }
+  .pillar-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: #1e1e1e; line-height: 1; }
+  .pillar-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: var(--white); margin-bottom: 0.4rem; }
+  .pillar-desc { font-size: 0.85rem; font-weight: 300; color: var(--grey); line-height: 1.7; margin-bottom: 1rem; }
+  .pillar-ex { font-size: 0.8rem; color: var(--light-grey); font-weight: 300; padding-left: 1rem; position: relative; line-height: 1.5; margin-bottom: 0.3rem; }
+  .pillar-ex::before { content: '→'; position: absolute; left: 0; color: var(--pink); }
+
+  /* OFFER WORKSHEET */
+  .offer-step { background: var(--card); border: 1px solid var(--border); padding: 1.75rem; margin-bottom: 1rem; }
+  .offer-step-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em; color: var(--pink); text-transform: uppercase; margin-bottom: 0.4rem; }
+  .offer-step-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: var(--white); margin-bottom: 0.6rem; }
+  .offer-step-desc { font-size: 0.875rem; font-weight: 300; color: var(--light-grey); line-height: 1.75; margin-bottom: 0.75rem; }
+  .offer-step-desc strong { color: var(--white); }
+  .offer-input { width: 100%; background: var(--card2); border: 1px solid var(--border); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 0.875rem; padding: 0.75rem 1rem; outline: none; transition: border-color 0.2s; resize: vertical; }
+  .offer-input:focus { border-color: var(--pink); }
+  .offer-input::placeholder { color: #222; }
+  .offer-eg { font-size: 0.75rem; color: var(--grey); margin-top: 0.5rem; }
+  .offer-eg::before { content: 'e.g. '; color: var(--pink); font-weight: 700; }
+
+  /* CHECKLIST */
+  .checklist { display: flex; flex-direction: column; gap: 0.5rem; }
+  .check-item { display: flex; align-items: center; gap: 1rem; background: var(--card); border: 1px solid var(--border); padding: 1rem 1.25rem; cursor: pointer; transition: border-color 0.2s; user-select: none; }
+  .check-item.done { opacity: 0.6; }
+  .check-box { width: 20px; height: 20px; border: 1.5px solid #333; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+  .check-item.done .check-box { background: var(--green); border-color: var(--green); }
+  .check-box::after { content: '✓'; color: #000; font-size: 0.65rem; font-weight: 700; opacity: 0; }
+  .check-item.done .check-box::after { opacity: 1; }
+  .check-label { font-size: 0.9rem; color: var(--light-grey); font-weight: 300; flex: 1; }
+  .check-item.done .check-label { text-decoration: line-through; color: var(--grey); }
+  .check-tag { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em; color: var(--pink); text-transform: uppercase; border: 1px solid var(--pink); padding: 2px 8px; white-space: nowrap; }
+  .checklist-progress { background: var(--card); border: 1px solid var(--border); padding: 1.25rem; margin-bottom: 1.5rem; }
+  .cl-bar-wrap { background: #1a1a1a; height: 5px; margin: 0.5rem 0; }
+  .cl-bar-fill { height: 100%; background: linear-gradient(to right, var(--pink), #FF80B5); transition: width 0.4s; }
+  .cl-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; color: var(--grey); text-transform: uppercase; }
+  .cl-count { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--pink); }
+
+  /* 30-DAY CALENDAR */
+  .calendar-week { margin-bottom: 2rem; }
+  .week-label { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--white); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+  .week-days { display: flex; flex-direction: column; gap: 0.5rem; }
+  .cal-day { background: var(--card); border: 1px solid var(--border); padding: 1rem 1.25rem; display: grid; grid-template-columns: 80px 1fr auto; gap: 1rem; align-items: center; }
+  .cal-day-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: var(--white); }
+  .cal-day-type { font-size: 0.75rem; font-weight: 700; color: var(--pink); text-transform: uppercase; letter-spacing: 0.08em; }
+  .cal-day-topic { font-size: 0.875rem; font-weight: 300; color: var(--light-grey); }
+  .cal-day-check { width: 18px; height: 18px; border: 1px solid #333; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; }
+  .cal-day.done .cal-day-check { background: var(--pink); border-color: var(--pink); }
+  .cal-day.done .cal-day-check::after { content: '✓'; color: #000; font-size: 0.6rem; font-weight: 700; }
+  .cal-day.done { opacity: 0.6; }
+
+  /* PRODUCT LADDER */
+  .ladder { display: flex; flex-direction: column; gap: 1px; background: var(--border); }
+  .ladder-item { background: var(--card); padding: 1.75rem 2rem; display: grid; grid-template-columns: 80px 1fr auto; gap: 1.5rem; align-items: center; }
+  .ladder-price { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--pink); line-height: 1; }
+  .ladder-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: var(--white); margin-bottom: 0.25rem; }
+  .ladder-desc { font-size: 0.8rem; font-weight: 300; color: var(--grey); line-height: 1.5; }
+  .ladder-tag { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; white-space: nowrap; }
+  .tag-free { background: rgba(0,232,122,0.12); color: var(--green); }
+  .tag-entry { background: var(--pink-dim); color: var(--pink); }
+  .tag-mid { background: rgba(255,214,0,0.12); color: var(--yellow); }
+  .tag-premium { background: rgba(77,138,255,0.12); color: var(--blue); }
+  .tag-you { background: var(--pink); color: #000; }
+
+  /* COMPLETE BTN */
+  .complete-btn { width: 100%; background: var(--pink); color: #000; font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.2em; padding: 1.1rem; border: none; cursor: pointer; margin-top: 3rem; transition: opacity 0.2s; }
+  .complete-btn:hover { opacity: 0.85; }
+
+  /* PINK STRIP */
+  .pink-strip { background: var(--pink); padding: 1.75rem 2rem; text-align: center; }
+  .pink-strip p { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.3rem, 3.5vw, 2.2rem); color: #000; }
+
+  /* POST METHOD PILL */
+  .post-pill { display: inline-block; background: var(--pink-dim); border: 1px solid var(--pink); color: var(--pink); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 3px 10px; margin-bottom: 1rem; }
+
+  /* TOAST */
+  .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); background: var(--pink); color: #000; font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 0.15em; padding: 0.75rem 2rem; opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 9999; }
+  .toast.show { opacity: 1; }
+
+  footer { background: var(--off-black); padding: 2.5rem 2rem; text-align: center; border-top: 1px solid var(--border); }
+  .footer-brand { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.2em; color: var(--pink); margin-bottom: 0.4rem; }
+  .footer-sub { font-size: 0.7rem; color: var(--grey); letter-spacing: 0.08em; }
+
+  @media (max-width: 600px) {
+    .blocker-hdr { grid-template-columns: 44px 1fr; }
+    .blocker-body { padding-left: 44px; }
+    .ladder-item { grid-template-columns: 60px 1fr; }
+    .ladder-tag { display: none; }
+    .cal-day { grid-template-columns: 70px 1fr 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- GLOBAL TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span>MOMFLUENCE AVENUE</span><span> · </span><span>CREATOR PORTAL</span><span> · </span><span>THE P.O.S.T. METHOD™</span><span> · </span><span>YOUR FIRST $1K STARTS HERE</span><span> · </span><span>MOMFLUENCE AVENUE</span><span> · </span><span>CREATOR PORTAL</span><span> · </span><span>THE P.O.S.T. METHOD™</span><span> · </span><span>YOUR FIRST $1K STARTS HERE</span><span> · </span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- WELCOME SCREEN -->
+<!-- ══════════════════════════════════════ -->
+<div id="welcome" class="screen active">
+  <div class="welcome-inner">
+    <div class="welcome-brand">MOMFLUENCE AVENUE · Creator Portal</div>
+    <h1 class="welcome-title">WHY YOUR<span>TIKTOK</span>ISN'T<span class="p">MAKING</span>MONEY</h1>
+    <p class="welcome-sub">Welcome, Creator. This is not another generic guide. This is <strong>the system built from real experience</strong> — the lessons that came from growing 200K+ and losing it all because attention without a system is not a business.</p>
+    <div class="welcome-meta">
+      <div class="welcome-meta-item">8 Modules</div>
+      <div class="welcome-meta-item">Est. 45–60 min</div>
+      <div class="welcome-meta-item">The P.O.S.T. Method™</div>
+      <div class="welcome-meta-item">50 Hooks Included</div>
+    </div>
+
+    <div class="story-box">
+      <div class="story-label">A Message From Kiki — Founder, Momfluence Avenue</div>
+      <div class="story-text">
+        <p>Welcome. I built this guide because I learned the hard way that <strong>traffic does not equal income.</strong></p>
+        <p>Years ago, I built a blog called Hot Topics Daily that grew to more than <strong>200,000 organic visitors.</strong> From the outside, it looked like success. The traffic was there. The attention was there. But what I did not have was a system.</p>
+        <p>Then I lost it — due to a copyright issue that could have been avoided if I had been paying closer attention to the backend. It was a mistake. A painful one. But the hardest part was not losing the traffic. It was realizing I had never built a repeatable system that could survive without it.</p>
+        <p>I had views. I had attention. I had momentum. <strong>What I did not have was a framework that turned attention into income consistently.</strong></p>
+        <p>That experience became the foundation for Momfluence Avenue. Everything inside this portal is what I wish someone had sat me down and explained. Because most creators do not have a content problem. <strong>They have a conversion problem.</strong> And once you understand the difference, everything changes.</p>
+        <div class="story-sig">— Kiki, Founder of Momfluence Avenue</div>
+      </div>
+    </div>
+
+    <div class="post-method">
+      <div class="post-method-label">Your Signature Framework</div>
+      <div class="post-method-title">The P.O.S.T. Method™</div>
+      <div class="post-letters">
+        <div class="post-letter"><div class="pl-letter">P</div><div class="pl-word">Problem</div><div class="pl-desc">Know exactly what problem you solve and who has it</div></div>
+        <div class="post-letter"><div class="pl-letter">O</div><div class="pl-word">Offer</div><div class="pl-desc">Create something specific people can buy</div></div>
+        <div class="post-letter"><div class="pl-letter">S</div><div class="pl-word">System</div><div class="pl-desc">Build repeatable content and sales processes</div></div>
+        <div class="post-letter"><div class="pl-letter">T</div><div class="pl-word">Trust</div><div class="pl-desc">Use stories, proof, and consistency to convert</div></div>
+      </div>
+    </div>
+
+    <button class="start-btn" onclick="goToDashboard()">Start The Portal →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- DASHBOARD -->
+<!-- ══════════════════════════════════════ -->
+<div id="dashboard" class="screen">
+  <div class="dash-header">
+    <div>
+      <div class="dash-brand">@MOMFLUENCEAVENUE</div>
+      <div style="font-size:0.65rem;color:var(--grey);letter-spacing:0.15em;text-transform:uppercase;margin-top:2px;">Creator Portal Dashboard</div>
+    </div>
+    <div class="dash-progress">
+      <div class="dash-prog-label">Progress</div>
+      <div class="dash-prog-bar"><div class="dash-prog-fill" id="dashProgFill" style="width:0%"></div></div>
+      <div class="dash-prog-pct" id="dashProgPct">0%</div>
+    </div>
+  </div>
+
+  <div class="dash-grid" id="dashGrid"></div>
+
+  <div style="max-width:1000px;margin:0 auto;padding:2rem;">
+    <button class="dash-back" onclick="goToWelcome()">← Back to Welcome</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- MODULE SCREEN -->
+<!-- ══════════════════════════════════════ -->
+<div id="module" class="screen">
+  <div class="module-header">
+    <button class="dash-back" onclick="goToDashboard()" style="padding:0;">← Back to Dashboard</button>
+    <div class="module-breadcrumb">Momfluence Avenue · <span id="moduleBreadcrumb">Module</span></div>
+  </div>
+  <div class="module-body" id="moduleBody"></div>
+</div>
+
+<div class="toast" id="toast">COPIED ⚡</div>
+
+<script>
+// ── STATE ──
+let completedModules = JSON.parse(localStorage.getItem('ma_portal_completed') || '[]');
+let auditChecked = JSON.parse(localStorage.getItem('ma_audit') || '[]');
+let checklistDone = JSON.parse(localStorage.getItem('ma_checklist') || '[]');
+let calendarDone = JSON.parse(localStorage.getItem('ma_calendar') || '[]');
+
+// ── NAVIGATION ──
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+function goToWelcome() { showScreen('welcome'); }
+function goToDashboard() { renderDashboard(); showScreen('dashboard'); }
+function goToModule(id) { renderModule(id); showScreen('module'); }
+
+// ── DASHBOARD ──
+const modules = [
+  { id: 'blockers', num: '01', title: 'The 7 Income Blockers', desc: 'The specific reasons your TikTok is not making money — and the fix for every single one.', tag: 'core', postTag: 'P — Problem' },
+  { id: 'audit', num: '02', title: 'TikTok Self-Audit', desc: 'Check every box that applies to your account right now. See exactly where your gaps are.', tag: 'tool', postTag: 'P — Problem' },
+  { id: 'bio', num: '03', title: 'Bio Builder', desc: 'Build your converting TikTok bio in 3 lines using the formula that stops the scroll and drives clicks.', tag: 'tool', postTag: 'O — Offer' },
+  { id: 'ctas', num: '04', title: 'CTA Swipe File', desc: '50 hooks and 10 CTAs across every content category. Copy them, customize them, post them.', tag: 'tool', postTag: 'S — System' },
+  { id: 'pillars', num: '05', title: 'Content Pillars', desc: 'The 6 content pillars including the Real Creator Lessons pillar built specifically from your story.', tag: 'core', postTag: 'S — System' },
+  { id: 'offer', num: '06', title: 'Offer Builder Worksheet', desc: 'Build your first offer step by step with pre-filled examples from Momfluence Avenue.', tag: 'core', postTag: 'O — Offer' },
+  { id: 'calendar', num: '07', title: '30-Day Content Calendar', desc: 'Your complete 30-day posting plan with topics for every day. Check off each day as you post.', tag: 'bonus', postTag: 'S — System' },
+  { id: 'ladder', num: '08', title: 'Your Product Ladder', desc: 'The full Momfluence Avenue product progression — where this guide fits and where to go next.', tag: 'bonus', postTag: 'T — Trust' },
+];
+
+function renderDashboard() {
+  const grid = document.getElementById('dashGrid');
+  grid.innerHTML = '';
+  modules.forEach(m => {
+    const isComplete = completedModules.includes(m.id);
+    const tagColors = { core: 'tag-core', bonus: 'tag-bonus', tool: 'tag-tool' };
+    const tagLabels = { core: 'Core Module', bonus: 'Bonus', tool: 'Interactive Tool' };
+    const card = document.createElement('div');
+    card.className = `dash-card${isComplete ? ' completed' : ''}`;
+    card.onclick = () => goToModule(m.id);
+    card.innerHTML = `<div class="dc-num">${m.num}</div><div class="dc-title">${m.title}</div><div class="dc-desc">${m.desc}</div><div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.75rem;"><span class="dc-tag ${tagColors[m.tag]}">${tagLabels[m.tag]}</span><span class="dc-tag tag-core" style="background:rgba(255,45,139,0.05);color:#555;">${m.postTag}</span></div>`;
+    grid.appendChild(card);
+  });
+  const pct = Math.round((completedModules.length / modules.length) * 100);
+  document.getElementById('dashProgFill').style.width = pct + '%';
+  document.getElementById('dashProgPct').textContent = pct + '%';
+}
+
+function markComplete(id) {
+  if (!completedModules.includes(id)) {
+    completedModules.push(id);
+    localStorage.setItem('ma_portal_completed', JSON.stringify(completedModules));
+  }
+  goToDashboard();
+}
+
+// ── MODULE RENDERER ──
+function renderModule(id) {
+  const m = modules.find(x => x.id === id);
+  document.getElementById('moduleBreadcrumb').textContent = m.title;
+  const body = document.getElementById('moduleBody');
+  body.innerHTML = getModuleHTML(id);
+  initModuleJS(id);
+}
+
+function getModuleHTML(id) {
+  const renders = { blockers: blockersHTML, audit: auditHTML, bio: bioHTML, ctas: ctasHTML, pillars: pillarsHTML, offer: offerHTML, calendar: calendarHTML, ladder: ladderHTML };
+  return renders[id]();
+}
+
+// ── MODULE 1: BLOCKERS ──
+function blockersHTML() {
+  const blockers = [
+    { name: 'You Have No Offer', tag: 'P — Problem', text: 'You are creating content with no destination for your audience. <strong>Views do not pay rent. An offer does.</strong> If someone loves your video, goes to your profile, and there is nothing to buy — you entertained them for free. Forever.', fixes: ['Identify one problem you can solve based on what you actually know how to do','Create the simplest version of a solution — a PDF, checklist, or template','Price it between $7 and $47 for your first digital product','Upload to Gumroad or Beacons today. Get the link. Put it in your bio.','Make your first selling video tomorrow using the Content-to-Cash formula'] },
+    { name: 'Your Bio Doesn\'t Convert', tag: 'P — Problem', text: 'Your bio is your storefront. Most creator bios are full of emojis and vibes and zero reason for someone to click the link. <strong>You are losing sales before someone even watches a video.</strong>', fixes: ['Line 1: Who you help + what result you give them — specific and clear','Line 2: Your credibility or a hook that makes you different','Line 3: One clear CTA with urgency — "Get the system below ↓"','Use the Bio Builder in Module 03 to write yours right now'] },
+    { name: 'Posting for Views, Not Buyers', tag: 'P — Problem', text: '<strong>Viral content entertains. Selling content solves.</strong> When you optimize for views you attract people who want entertainment. When you optimize for solving a problem you attract people who are ready to pay.', fixes: ['Lead every selling video with the pain point — not your product','Make at least 2 out of every 5 videos "buyer content" — content designed to convert','Buyer hook formula: "If you are [specific person] struggling with [specific problem] — this is for you"','Track which of your videos drives the most profile visits — that is your buyer content'] },
+    { name: 'You Talk to Everyone', tag: 'P — Problem', text: 'When you try to speak to every creator on TikTok — nobody feels like you are talking to them. <strong>Specific content builds loyal audiences. Loyal audiences buy.</strong> Broad audiences just watch.', fixes: ['Answer: What problem do I solve? Who has that problem specifically? What would they search?','Use your niche descriptor in your hooks — "If you are a mom trying to monetize TikTok..."','Post 7 days of niche-specific content and watch your engagement change','The more specific you are the more your buyer feels found — and people buy from people who find them'] },
+    { name: 'You Never Ask for the Sale', tag: 'S — System', text: 'You hint. You suggest. You hope people figure it out. <strong>They will not.</strong> You have to say "here is what I have, here is how much it costs, here is where to get it." Confident, clear, direct.', fixes: ['End every selling video with a clear verbal CTA — say the product name, say the price, say "link in bio"','Put the CTA in your caption too — short and specific','Use the CTA Swipe File in Module 04 and rotate through them so you never sound repetitive','Do not apologize for selling — you built something valuable. Confidence is what makes people trust the product is worth buying.'] },
+    { name: 'Inconsistent Value Proposition', tag: 'S — System', text: 'Monday lifestyle. Tuesday skincare. Wednesday rant. Thursday recipe. Your audience does not know what you stand for or what problem you solve. <strong>They follow for entertainment but never buy.</strong>', fixes: ['Choose 5-6 content pillars that all live inside your niche — see Module 05','Every video you post fits one pillar. No exceptions for 30 days.','Plan your week: Monday education, Tuesday story, Wednesday sell, Thursday viral, Friday trust','Consistency of message is what turns followers into buyers — not consistency of posting alone'] },
+    { name: 'You Have a Vibe, Not a System', tag: 'S — System', text: '<strong>Vibes do not scale.</strong> Posting when inspired, selling when you remember — that is a hobby. A system is a posting schedule, a content plan, a sales cadence that runs whether you feel like it or not.', fixes: ['Set your posting schedule and treat it like a job — 2 videos per day, same time, non-negotiable','Batch content once a week — film 7-10 videos in one sitting so the "I don\'t feel like it" excuse disappears','Set a selling cadence: every 3rd video mentions your offer. Every Sunday is your bundle close.','Track every post and every dollar in Count It. — what gets tracked gets improved'] },
+  ];
+  return `
+    <div class="post-pill">P.O.S.T. Method™ — Problem + System</div>
+    <h2 class="module-title">The 7 Income Blockers</h2>
+    <p class="module-intro">Not one of these is about your follower count. Not one requires you to go viral. <strong>Every single one is fixable today</strong> — and the fix is right below each blocker. Tap to expand.</p>
+    <div id="blockerList">${blockers.map((b,i) => `
+      <div class="blocker" id="bl${i}">
+        <div class="blocker-hdr" onclick="toggleBlocker(${i})">
+          <div class="blocker-num">0${i+1}</div>
+          <div><div class="blocker-name">${b.name}</div><div style="font-size:0.6rem;color:var(--grey);letter-spacing:0.1em;text-transform:uppercase;margin-top:2px;">${b.tag}</div></div>
+          <div class="blocker-arrow">↓</div>
+        </div>
+        <div class="blocker-body">
+          <div class="blocker-text">${b.text}</div>
+          <div class="fix-box">
+            <div class="fix-label">The Fix</div>
+            ${b.fixes.map(f => `<div class="fix-step">${f}</div>`).join('')}
+          </div>
+        </div>
+      </div>`).join('')}
+    </div>
+    <div class="pink-strip" style="margin-top:3rem;"><p>This is a P.O.S.T. Method problem. Every blocker above maps to P, O, or S.</p></div>
+    <button class="complete-btn" onclick="markComplete('blockers')">Mark Complete + Back to Dashboard →</button>`;
+}
+
+// ── MODULE 2: AUDIT ──
+function auditHTML() {
+  const items = [
+    'I do not have a product or offer set up yet',
+    'My bio does not say who I help or what to do next',
+    'Most of my content is lifestyle or trending — not problem-solving',
+    'My content could appeal to anyone — no specific audience',
+    'I rarely or never direct people to buy something on camera',
+    'My content theme changes week to week',
+    'I post when I feel like it with no real schedule',
+  ];
+  return `
+    <div class="post-pill">P.O.S.T. Method™ — Problem</div>
+    <h2 class="module-title">TikTok Self-Audit</h2>
+    <p class="module-intro">Check everything that is true for your TikTok right now. Be honest — this is for you. Your results will show which blockers from Module 01 are most urgent for you to fix first.</p>
+    ${items.map((item, i) => `
+      <div class="audit-item${auditChecked.includes(i) ? ' checked' : ''}" onclick="toggleAudit(${i}, this)">
+        <div class="audit-box"></div>
+        <div class="audit-text">${item}</div>
+      </div>`).join('')}
+    <div class="audit-result${auditChecked.length > 0 ? ' show' : ''}" id="auditResult">
+      <p id="auditResultText">${getAuditResult(auditChecked.length)}</p>
+    </div>
+    <button class="complete-btn" onclick="markComplete('audit')">Mark Complete + Back to Dashboard →</button>`;
+}
+
+function getAuditResult(count) {
+  if (count === 0) return '';
+  if (count <= 2) return `You checked <strong>${count} out of 7</strong>. You are close — but even 1 blocker keeps income at zero. Go back to Module 01 and open the ones you checked. The fix is right there.`;
+  if (count <= 4) return `You checked <strong>${count} out of 7</strong>. This is exactly why your TikTok is not converting. Every single one of these is fixable. Start with Blocker 01 and work down.`;
+  return `You checked <strong>${count} out of 7</strong>. This is not a talent issue. This is a system issue — and you just identified every gap. The fixes are all in Module 01. Start today.`;
+}
+
+// ── MODULE 3: BIO ──
+function bioHTML() {
+  return `
+    <div class="post-pill">P.O.S.T. Method™ — Offer</div>
+    <h2 class="module-title">Bio Builder</h2>
+    <p class="module-intro">Your TikTok bio has one job — tell someone who lands on your page exactly who you help, why you are credible, and what to do next. Fill in the three fields below and your new bio builds itself. Then copy it and update your profile today.</p>
+    <div class="bio-field">
+      <label>Line 1 — Who You Help + What Result</label>
+      <small>Be specific. "Helping moms turn content into income" converts better than "content creator"</small>
+      <input class="bio-input" id="bioL1" placeholder="Helping moms turn content into income 💸" oninput="buildBio()"/>
+      <div style="margin-top:0.5rem;font-size:0.75rem;color:var(--grey);">e.g. Helping moms turn content into income · I help TikTok creators make their first $1K · Turning views into sales for beginner creators</div>
+    </div>
+    <div class="bio-field" style="margin-top:1rem;">
+      <label>Line 2 — Your Credibility or Hook</label>
+      <small>What makes you credible? What makes you different? Keep it real and specific.</small>
+      <input class="bio-input" id="bioL2" placeholder="Built a 200K+ audience & learned what actually converts" oninput="buildBio()"/>
+      <div style="margin-top:0.5rem;font-size:0.75rem;color:var(--grey);">e.g. Built a 200K+ audience & learned what actually converts · $0 to $2K in 60 days · Former 9-5, now full-time creator</div>
+    </div>
+    <div class="bio-field" style="margin-top:1rem;">
+      <label>Line 3 — Your Call to Action</label>
+      <small>One action. One link. Create urgency and make it clear.</small>
+      <input class="bio-input" id="bioL3" placeholder="Creator tools + guides below ↓" oninput="buildBio()"/>
+      <div style="margin-top:0.5rem;font-size:0.75rem;color:var(--grey);">e.g. Get the Creator Conversion System ↓ · Free bio audit + products below ↓ · Start your first $1K today ⚡</div>
+    </div>
+    <div class="bio-preview">
+      <div class="bio-preview-label">Your New TikTok Bio</div>
+      <div class="bio-preview-text" id="bioPreview"><span class="bio-empty">Fill in the fields above to build your bio...</span></div>
+    </div>
+    <button class="pink-btn" id="copyBioBtn" onclick="copyBio()">Copy My Bio →</button>
+    <button class="complete-btn" onclick="markComplete('bio')" style="margin-top:1.5rem;">Mark Complete + Back to Dashboard →</button>`;
+}
+
+// ── MODULE 4: CTAs / HOOKS ──
+function ctasHTML() {
+  const hooks = [
+    { cat: 'sales', text: 'If you have been on TikTok for months and made zero dollars — this is exactly why.' },
+    { cat: 'sales', text: 'I made a guide that breaks down exactly why your TikTok is not making money. $17. Link in bio.' },
+    { cat: 'sales', text: 'Your first $1K on TikTok is 37 people buying a $27 product. The system is in my bio.' },
+    { cat: 'sales', text: 'Everything I just talked about is inside my $17 guide. The link has been in my bio this whole time.' },
+    { cat: 'sales', text: 'This is the last time I am going to say this: the system is in my bio. Go get it.' },
+    { cat: 'sales', text: 'Stop posting without a system. $27 in my bio fixes that today. Link is up.' },
+    { cat: 'sales', text: 'If you want the complete content-to-cash system that gets you to your first $1K — $27. Link in bio.' },
+    { cat: 'sales', text: 'Your follower count is not the problem. Your offer is. I have a $17 guide that proves it.' },
+    { cat: 'sales', text: 'Three products. One path. Your first $1,000. Bundle is $57. Link in bio.' },
+    { cat: 'sales', text: 'The tracker that keeps you accountable until you hit a thousand. $37. Count It. Link in bio.' },
+    { cat: 'story', text: 'I grew a blog to 200,000 visitors with no system and then lost it. Here is what I built instead.' },
+    { cat: 'story', text: 'The moment I realized I had been building on a foundation of vibes — and what changed after.' },
+    { cat: 'story', text: 'I was terrified to start over. So I built everything I wish I had the first time.' },
+    { cat: 'story', text: 'Nobody told me that going viral and making money are completely different things. Until the hard way.' },
+    { cat: 'story', text: 'What losing 200K visitors taught me about building a real business online.' },
+    { cat: 'story', text: 'I had attention. I had traffic. I had momentum. What I did not have was a system.' },
+    { cat: 'story', text: 'The thing that finally clicked for me about making money online was embarrassingly simple.' },
+    { cat: 'story', text: 'How I went from building something huge to starting completely over — and why I am grateful.' },
+    { cat: 'story', text: 'She had 200K visitors and zero repeatable income. That girl was me. Here is what changed.' },
+    { cat: 'story', text: 'I stopped being afraid to start over the moment I had a system to protect what I was building.' },
+    { cat: 'mistake', text: 'The biggest mistake I made building my first audience — and why it cost me everything.' },
+    { cat: 'mistake', text: 'Stop posting until you watch this. Seriously. You are doing it wrong.' },
+    { cat: 'mistake', text: 'This one thing is keeping creators broke on TikTok and nobody is talking about it.' },
+    { cat: 'mistake', text: 'I wish someone told me this before I wasted a year posting with no strategy.' },
+    { cat: 'mistake', text: 'The reason nobody is buying from you is not what you think it is.' },
+    { cat: 'mistake', text: 'Most creators are solving the wrong problem. Here is the right one.' },
+    { cat: 'mistake', text: 'If your videos get views but nobody buys — listen closely. This is the reason.' },
+    { cat: 'beginner', text: 'If you are a beginner creator trying to make your first dollar online — this is your sign.' },
+    { cat: 'beginner', text: 'You do not need a massive audience to make money. You need a clear offer and the right system.' },
+    { cat: 'beginner', text: 'What I would do if I had to start a TikTok from zero tomorrow. Step by step. No fluff.' },
+    { cat: 'beginner', text: 'The first thing I would fix if I had to build my TikTok income from scratch today.' },
+    { cat: 'beginner', text: 'Here is what changed when I stopped chasing views and started building an offer.' },
+    { cat: 'beginner', text: 'Your content is not the problem. Your system is. Here is how to build one starting right now.' },
+    { cat: 'beginner', text: 'POV: you finally stopped posting into the void and started posting with a purpose.' },
+    { cat: 'beginner', text: 'You have been consistent. You have shown up. Now let me show you how to get paid for it.' },
+    { cat: 'mom', text: 'If you are a mom trying to make money online — stop scrolling. This is for you.' },
+    { cat: 'mom', text: 'You can build a real income on TikTok between nap times and school pickups. Here is how.' },
+    { cat: 'mom', text: 'Being a mom does not make this harder. Your story makes you more relatable. That converts.' },
+    { cat: 'mom', text: 'I built a 200K audience as a mom with no ad budget. Here is what actually worked.' },
+    { cat: 'mom', text: 'Mom creators have the most powerful niche on TikTok. Here is how to monetize it.' },
+    { cat: 'mom', text: 'The creator who built tools to help other moms make money online — and why she had to build them herself.' },
+    { cat: 'mom', text: 'You are not too busy to build this. You are too busy not to. Your time has a dollar value.' },
+    { cat: 'mom', text: 'What Momfluence Avenue is and why I built it for every mom who creates without getting paid.' },
+    { cat: 'mom', text: 'For the mom who has been posting for months and has nothing financial to show for it — I see you.' },
+    { cat: 'mom', text: 'The mom who figured out what actually makes money online and built a portal to share it. That is me.' },
+    { cat: 'cta', text: 'Save this. Come back when you are ready. The link will be there.' },
+    { cat: 'cta', text: 'The guide is $17. The system is $27. The bundle is $57. Pick your entry point. Link in bio.' },
+    { cat: 'cta', text: 'If this resonated — the full breakdown is in my bio. It is going to change how you post tomorrow.' },
+    { cat: 'cta', text: 'Go to my bio right now. Everything I build for creators is sitting there waiting for you.' },
+    { cat: 'cta', text: 'You have been watching. You know you need this. The link is in my bio. Go get it.' },
+  ];
+
+  const cats = { sales: 'Sales Hooks', story: 'Story Hooks', mistake: 'Mistake Hooks', beginner: 'Beginner Creator Hooks', mom: 'Mom Creator Hooks', cta: 'CTA Lines' };
+  return `
+    <div class="post-pill">P.O.S.T. Method™ — System</div>
+    <h2 class="module-title">50 Hooks + CTA Swipe File</h2>
+    <p class="module-intro">These are ready to use. Copy any hook, customize with your specific details, and post it. Filter by category. Tap any card to copy instantly.</p>
+    <div class="hooks-filter">
+      <button class="hf-btn active" onclick="filterHooks2('all', this)">All 50</button>
+      ${Object.entries(cats).map(([k,v]) => `<button class="hf-btn" onclick="filterHooks2('${k}', this)">${v}</button>`).join('')}
+    </div>
+    <div class="hooks-grid" id="hooksGrid2">${hooks.map(h => `
+      <div class="hook-card" data-cat="${h.cat}">
+        <div class="hook-cat">${cats[h.cat]}</div>
+        <div class="hook-text">"${h.text}"</div>
+        <button class="hook-copy" onclick="copyText(event, \`${h.text.replace(/`/g,"\\`")}\`)">↗ Copy</button>
+      </div>`).join('')}
+    </div>
+    <button class="complete-btn" onclick="markComplete('ctas')" style="margin-top:2rem;">Mark Complete + Back to Dashboard →</button>`;
+}
+
+// ── MODULE 5: PILLARS ──
+function pillarsHTML() {
+  const pillars = [
+    { num: '01', name: 'Origin Story', color: 'var(--pink)', desc: 'Your story is your most powerful selling tool. It builds instant trust, makes people feel seen, and positions you as someone who has been where they are and found the way through.', examples: ['How I grew 200K with no system and what it cost me', 'The moment I realized I needed to build differently', 'Why I built Momfluence Avenue', 'What I wish someone had told me when I started'] },
+    { num: '02', name: 'Creator Education', color: 'var(--blue)', desc: 'Teach your audience something valuable for free. This positions you as the expert, builds loyalty, and makes them more likely to invest in your paid content.', examples: ['Why your TikTok bio is killing your sales', 'The difference between viral and buyer content', 'How to find your niche in 24 hours', 'The 5 income streams TikTok creators actually use'] },
+    { num: '03', name: 'Product Value', color: 'var(--yellow)', desc: 'Show your product in action. Walk through what is inside. Read a real testimonial. Let people see exactly what they are getting before they decide.', examples: ['Here is what is inside Why Your TikTok Isn\'t Making Money', 'The 7 blockers — let me show you #3', 'Watch me use the Count It tracker live', 'Why I priced this at $17 and not $97'] },
+    { num: '04', name: 'Social Proof', color: 'var(--green)', desc: 'Share results — yours and your buyers\'. Screenshots, testimonials, milestones, wins. Proof is the fastest way to convert a skeptic into a buyer.', examples: ['My first sale notification — what it felt like', 'She hit $500 in 3 weeks using this system', 'Reacting to buyer feedback in real time', 'Before and after: her TikTok bio transformation'] },
+    { num: '05', name: 'Viral / Trending', color: 'var(--orange)', desc: 'Use trending sounds, formats, and moments — always tied back to your niche. This is how you get reach without losing your buyer audience.', examples: ['POV: you just made your first $1K on TikTok', 'Things nobody told me about making money online', 'Using trending audio + "if you are a creator who..." text', 'Green screen over a viral money post + your take'] },
+    { num: '06', name: 'Real Creator Lessons', color: 'var(--pink)', desc: 'People connect with honesty more than perfection. This pillar is built from your real experience — the things you learned the hard way that your audience desperately needs to hear.', examples: ['The mistake that cost me my 200K-visitor blog', 'What I would do differently if I started over today', 'The biggest lie creators are told about making money online', 'Why consistency matters more than motivation', 'Things I learned the hard way so you don\'t have to'] },
+  ];
+  return `
+    <div class="post-pill">P.O.S.T. Method™ — System + Trust</div>
+    <h2 class="module-title">Your 6 Content Pillars</h2>
+    <p class="module-intro">Every video you post should live inside one of these six pillars. This is how you stay consistent, build a buyer audience, and sell without burning out your page. Pillar 06 — Real Creator Lessons — is built specifically around your story and is your most powerful differentiator.</p>
+    <div class="pillar-grid">${pillars.map(p => `
+      <div class="pillar-card" style="border-top-color:${p.color}">
+        <div class="pillar-num" style="color:#1e1e1e;">${p.num}</div>
+        <div class="pillar-name">${p.name}</div>
+        <div class="pillar-desc">${p.desc}</div>
+        ${p.examples.map(e => `<div class="pillar-ex">${e}</div>`).join('')}
+      </div>`).join('')}
+    </div>
+    <button class="complete-btn" onclick="markComplete('pillars')">Mark Complete + Back to Dashboard →</button>`;
+}
+
+// ── MODULE 6: OFFER ──
+function offerHTML() {
+  const steps = [
+    { label: 'Step 01', title: 'What Do You Know How to Do?', desc: 'List every skill, experience, or knowledge you have that someone else would pay to skip acquiring themselves. Do not filter. Someone who is 3 steps behind you <strong>will pay to skip those steps.</strong>', placeholder: 'Growing blogs organically, TikTok monetization, digital product creation, content strategy, creator branding, audience psychology, writing hooks that convert...', eg: 'Growing organic audiences with no ad budget' },
+    { label: 'Step 02', title: 'Who Needs What You Know?', desc: 'Get specific. <strong>Not "other creators" — which creators?</strong> What stage are they at? What are they struggling with right now? What do they want that they do not have yet?', placeholder: 'Moms wanting extra income, beginner creators, lifestyle creators, women returning to work, creators with under 10K followers, people who get views but no sales...', eg: 'Moms who want to monetize their TikTok but have been posting for months with nothing to show' },
+    { label: 'Step 03', title: 'What is the One Transformation?', desc: 'Pick <strong>one specific result.</strong> Not "everything about TikTok" — that is too broad. "How to make your first $1K on TikTok using digital products" — that is a product.', placeholder: 'My offer will teach someone how to turn their TikTok content into consistent income without needing a massive following...', eg: 'How to make your first $1,000 on TikTok using digital products' },
+    { label: 'Step 04', title: 'What Format Makes Sense?', desc: 'Choose the format that <strong>best delivers the transformation</strong> and that you can create in the next 48 hours. Do not let format be the reason you never launch.', placeholder: 'Interactive HTML guide, PDF workbook, checklist + template pack, 1:1 coaching call...', eg: 'Interactive HTML file — like the Momfluence Avenue products' },
+    { label: 'Step 05', title: 'What is Your Price?', desc: 'For a first digital product: <strong>$7–$47 is the sweet spot.</strong> Low enough for an easy yes. High enough to signal real value. Do not underprice out of fear.', placeholder: 'My price is $____ because the transformation I am delivering is worth at least 3x that to my buyer...', eg: '$17 — low barrier, high value, easy first yes' },
+    { label: 'Step 06', title: 'What is the Name of Your Offer?', desc: 'Your title should <strong>describe the transformation or name the problem.</strong> Short enough to say in a video hook. Memorable enough to stick.', placeholder: 'My offer is called: ______', eg: '"Why Your TikTok Isn\'t Making Money" — names the pain · "Post. Sell. Repeat." — describes the system' },
+  ];
+  return `
+    <div class="post-pill">P.O.S.T. Method™ — Offer</div>
+    <h2 class="module-title">Offer Builder Worksheet</h2>
+    <p class="module-intro">You do not need to have it all figured out. You need to answer these six questions. Your first offer is already inside your answers. Work through each step — your answers are saved automatically.</p>
+    ${steps.map((s,i) => `
+      <div class="offer-step">
+        <div class="offer-step-label">${s.label}</div>
+        <div class="offer-step-title">${s.title}</div>
+        <div class="offer-step-desc">${s.desc}</div>
+        <textarea class="offer-input" rows="3" placeholder="${s.placeholder}" oninput="saveOffer(${i}, this.value)">${getOffer(i)}</textarea>
+        <div class="offer-eg">${s.eg}</div>
+      </div>`).join('')}
+    <button class="complete-btn" onclick="markComplete('offer')">Mark Complete + Back to Dashboard →</button>`;
+}
+
+// ── MODULE 7: CALENDAR ──
+function calendarHTML() {
+  const weeks = [
+    { label: 'Week 1 — Build The Foundation', days: [
+      { name: 'Mon', type: 'Origin Story', topic: 'Who you are, why you built this, the journey that led here' },
+      { name: 'Tue', type: 'Education', topic: 'The #1 mistake new creators make — optimize for buyers not views' },
+      { name: 'Wed', type: 'Product Value', topic: 'What is inside your offer — walk through the real content' },
+      { name: 'Thu', type: 'Social Proof', topic: 'Your results, your story, proof the system works' },
+      { name: 'Fri', type: 'Education', topic: 'Why your bio is costing you sales — the 3-line formula' },
+      { name: 'Sat', type: 'Viral / Trending', topic: 'POV: you stopped posting into the void and built a system' },
+      { name: 'Sun', type: 'Offer Reminder', topic: 'Your Sunday close — full offer, direct CTA, bundle mention' },
+    ]},
+    { label: 'Week 2 — Go Deeper', days: [
+      { name: 'Mon', type: 'Creator Lessons', topic: 'What I would do if I had to start from zero today' },
+      { name: 'Tue', type: 'Education', topic: 'The 7 income blockers — which one is yours?' },
+      { name: 'Wed', type: 'Product Value', topic: 'Deep dive on one specific feature inside your product' },
+      { name: 'Thu', type: 'Origin Story', topic: 'The fear of starting over — and what building a system changed' },
+      { name: 'Fri', type: 'Viral / Trending', topic: 'Things nobody tells you about making money online' },
+      { name: 'Sat', type: 'Social Proof', topic: 'Testimonial, results screenshot, or your own income milestone' },
+      { name: 'Sun', type: 'Offer Reminder', topic: 'Bundle reminder — the math, the value, the link' },
+    ]},
+    { label: 'Week 3 — Sell With Confidence', days: [
+      { name: 'Mon', type: 'Education', topic: 'Content-to-cash formula — hook, agitate, value, bridge, CTA' },
+      { name: 'Tue', type: 'Creator Lessons', topic: 'The biggest lie creators are told about going viral' },
+      { name: 'Wed', type: 'Product Value', topic: 'Who this is for — describe your buyer in detail so she self-selects' },
+      { name: 'Thu', type: 'Viral / Trending', topic: 'What $1K on TikTok actually feels like — POV format' },
+      { name: 'Fri', type: 'Selling Content', topic: '"7 signs you need this guide" — name each pain point' },
+      { name: 'Sat', type: 'Social Proof', topic: 'Before and after — bio transformation, content strategy change' },
+      { name: 'Sun', type: 'Offer Reminder', topic: 'Most direct selling video of the month — no lead up, just the offer' },
+    ]},
+    { label: 'Week 4 — Close Strong', days: [
+      { name: 'Mon', type: 'Creator Lessons', topic: 'What building Momfluence Avenue taught me about myself' },
+      { name: 'Tue', type: 'Education', topic: 'The compounding effect — every video you post is a permanent asset' },
+      { name: 'Wed', type: 'Viral / Trending', topic: 'Imagine waking up to a sale notification — trending format' },
+      { name: 'Thu', type: 'Origin Story', topic: 'Vulnerability video — the fear, the doubt, the decision to keep going' },
+      { name: 'Fri', type: 'Product Value', topic: 'Investment breakdown — what $57 actually buys and what it changes' },
+      { name: 'Sat', type: 'Social Proof', topic: 'Results check-in — where you are in Count It, what you have earned' },
+      { name: 'Sun', type: 'Offer Reminder', topic: 'Day 30 close — celebrate it, be real about what you built, keep the link up' },
+    ]},
+  ];
+  let dayIndex = 0;
+  return `
+    <div class="post-pill">P.O.S.T. Method™ — System</div>
+    <h2 class="module-title">30-Day Content Calendar</h2>
+    <p class="module-intro">Your complete 30-day posting plan. Every day has a content type and a specific topic. Check each day off as you post. Come back every week to see your progress.</p>
+    ${weeks.map((week, wi) => `
+      <div class="calendar-week">
+        <div class="week-label">${week.label}</div>
+        <div class="week-days">
+          ${week.days.map((day) => {
+            const idx = dayIndex++;
+            const isDone = calendarDone.includes(idx);
+            return `<div class="cal-day${isDone ? ' done' : ''}" id="calDay${idx}">
+              <div><div class="cal-day-name">${day.name}</div><div class="cal-day-type">${day.type}</div></div>
+              <div class="cal-day-topic">${day.topic}</div>
+              <div class="cal-day-check" onclick="toggleCalDay(${idx})"></div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>`).join('')}
+    <button class="complete-btn" onclick="markComplete('calendar')">Mark Complete + Back to Dashboard →</button>`;
+}
+
+// ── MODULE 8: LADDER ──
+function ladderHTML() {
+  const ladder = [
+    { price: 'FREE', name: 'Bio Audit Checklist', desc: 'A quick 10-point checklist to identify exactly what your TikTok bio is missing and how to fix it today.', tag: 'tag-free', tagLabel: 'Lead Magnet' },
+    { price: '$17', name: 'Why Your TikTok Isn\'t Making Money', desc: 'The entry point. 7 income blockers, self-audit, bio builder, CTA bank, content pillars, and offer worksheet.', tag: 'tag-entry', tagLabel: 'Entry Product' },
+    { price: '$27', name: 'Post. Sell. Repeat.', desc: 'The system. Monetization map, content-to-cash formula, 30 done-for-you hooks, weekly rhythm, 30-day action plan.', tag: 'tag-entry', tagLabel: 'System Product' },
+    { price: '$37', name: 'Count It.', desc: 'The tracker. Interactive income logger, $1K milestone tracker, content post log, income stream breakdown.', tag: 'tag-entry', tagLabel: 'Tool Product' },
+    { price: '$57', name: 'The Bundle', desc: 'All three products together. The complete path: diagnose, systemize, track. Save $24 vs buying separately.', tag: 'tag-mid', tagLabel: 'Bundle' },
+    { price: '$97', name: 'Creator Portal — You Are Here', desc: 'Everything from all three products PLUS 50 hooks, launch checklist, 30-day calendar, P.O.S.T. Method, and the full dashboard experience.', tag: 'tag-you', tagLabel: 'You Are Here 👑' },
+    { price: '$197+', name: 'Creator Conversion System', desc: 'The advanced system — video trainings, live coaching component, community access, and monthly content strategy calls. Coming soon.', tag: 'tag-premium', tagLabel: 'Coming Soon' },
+  ];
+  return `
+    <div class="post-pill">P.O.S.T. Method™ — Trust</div>
+    <h2 class="module-title">Your Product Ladder</h2>
+    <p class="module-intro">This is the full Momfluence Avenue product progression. Every product is a natural step up from the last. Someone who starts at $17 and gets real value will naturally want the next level. You are currently inside the <strong>$97 Creator Portal.</strong></p>
+    <div class="ladder">
+      ${ladder.map(l => `
+        <div class="ladder-item" style="${l.price === '$97' ? 'border-left:3px solid var(--pink);' : ''}">
+          <div class="ladder-price">${l.price}</div>
+          <div><div class="ladder-name">${l.name}</div><div class="ladder-desc">${l.desc}</div></div>
+          <div class="ladder-tag ${l.tag}">${l.tagLabel}</div>
+        </div>`).join('')}
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-left:3px solid var(--pink);padding:2rem;margin-top:2rem;">
+      <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.3em;color:var(--pink);text-transform:uppercase;margin-bottom:0.75rem;">The Biggest Differentiator</div>
+      <p style="font-size:0.925rem;font-weight:300;color:var(--light-grey);line-height:1.85;">Your real experience — building a large audience, losing it, and realizing that <strong style="color:var(--white);">attention without a system is not a business</strong> — is the thread running through every product in this ladder. It is more memorable than another "grow on TikTok" course because it is rooted in a lesson you actually lived. That story is your most powerful marketing asset. Use it in every product, every video, every live.</p>
+    </div>
+    <button class="complete-btn" onclick="markComplete('ladder')">Mark Complete + Back to Dashboard →</button>`;
+}
+
+// ── JS HELPERS ──
+function toggleBlocker(i) {
+  const el = document.getElementById('bl' + i);
+  el.classList.toggle('open');
+}
+
+function toggleAudit(i, el) {
+  if (auditChecked.includes(i)) { auditChecked = auditChecked.filter(x => x !== i); el.classList.remove('checked'); }
+  else { auditChecked.push(i); el.classList.add('checked'); }
+  localStorage.setItem('ma_audit', JSON.stringify(auditChecked));
+  const result = document.getElementById('auditResult');
+  const text = document.getElementById('auditResultText');
+  if (auditChecked.length === 0) { result.classList.remove('show'); return; }
+  result.classList.add('show');
+  text.innerHTML = getAuditResult(auditChecked.length);
+}
+
+function buildBio() {
+  const l1 = document.getElementById('bioL1').value.trim();
+  const l2 = document.getElementById('bioL2').value.trim();
+  const l3 = document.getElementById('bioL3').value.trim();
+  const preview = document.getElementById('bioPreview');
+  const btn = document.getElementById('copyBioBtn');
+  if (!l1 && !l2 && !l3) { preview.innerHTML = '<span class="bio-empty">Fill in the fields above to build your bio...</span>'; btn.classList.remove('show'); return; }
+  preview.innerHTML = [l1, l2, l3].filter(Boolean).join('<br>');
+  btn.classList.add('show');
+}
+
+function copyBio() {
+  const l1 = document.getElementById('bioL1').value.trim();
+  const l2 = document.getElementById('bioL2').value.trim();
+  const l3 = document.getElementById('bioL3').value.trim();
+  const text = [l1, l2, l3].filter(Boolean).join('\n');
+  navigator.clipboard.writeText(text).then(() => showToast('BIO COPIED ⚡'));
+}
+
+function filterHooks2(cat, btn) {
+  document.querySelectorAll('.hf-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#hooksGrid2 .hook-card').forEach(card => {
+    card.style.display = (cat === 'all' || card.dataset.cat === cat) ? 'block' : 'none';
+  });
+}
+
+let offerAnswers = JSON.parse(localStorage.getItem('ma_offer') || '{}');
+function saveOffer(i, val) { offerAnswers[i] = val; localStorage.setItem('ma_offer', JSON.stringify(offerAnswers)); }
+function getOffer(i) { return offerAnswers[i] || ''; }
+
+function toggleCalDay(idx) {
+  const el = document.getElementById('calDay' + idx);
+  if (calendarDone.includes(idx)) { calendarDone = calendarDone.filter(x => x !== idx); el.classList.remove('done'); }
+  else { calendarDone.push(idx); el.classList.add('done'); }
+  localStorage.setItem('ma_calendar', JSON.stringify(calendarDone));
+}
+
+function copyText(e, text) {
+  e.stopPropagation();
+  navigator.clipboard.writeText(text).then(() => showToast('COPIED ⚡'));
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg || 'COPIED ⚡';
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+// INIT
+renderDashboard();
+</script>
+</body>
+</html>
