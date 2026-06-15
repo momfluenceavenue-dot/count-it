@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Post. Sell. Repeat. — @momfluenceavenue</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a; --off-black: #111; --card: #181818; --card2: #141414;
+    --pink: #FF2D8B; --pink-glow: rgba(255,45,139,0.15);
+    --white: #fff; --grey: #555; --light-grey: #bbb; --border: #1e1e1e;
+    --green: #00E87A; --blue: #4D8AFF; --yellow: #FFD600;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+
+  .ticker-wrap { background: var(--pink); overflow: hidden; white-space: nowrap; padding: 9px 0; }
+  .ticker { display: inline-block; animation: ticker 22s linear infinite; }
+  .ticker span { font-family: 'Bebas Neue', sans-serif; font-size: 0.85rem; letter-spacing: 0.2em; color: #000; padding: 0 2rem; }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* HERO */
+  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 5rem 2rem 4rem; position: relative; overflow: hidden; max-width: 900px; margin: 0 auto; }
+  .hero::before { content: ''; position: absolute; top: -100px; right: -100px; width: 500px; height: 500px; background: radial-gradient(circle, var(--pink-glow) 0%, transparent 70%); pointer-events: none; }
+  .hero-eyebrow { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.35em; color: var(--pink); text-transform: uppercase; margin-bottom: 1.5rem; }
+  .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(5rem, 18vw, 13rem); line-height: 0.88; margin-bottom: 2rem; }
+  .hero-title .p { color: var(--pink); display: block; }
+  .hero-sub { font-size: 1.05rem; font-weight: 300; color: var(--light-grey); max-width: 520px; line-height: 1.8; margin-bottom: 2rem; }
+  .hero-sub strong { color: var(--white); }
+
+  .welcome-note { background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--pink); padding: 1.5rem 2rem; max-width: 600px; margin-bottom: 2.5rem; }
+  .welcome-note p { font-size: 0.95rem; font-weight: 300; color: var(--light-grey); line-height: 1.8; }
+  .welcome-note strong { color: var(--white); }
+  .welcome-note .sig { font-size: 0.85rem; color: var(--pink); font-weight: 700; margin-top: 1rem; }
+
+  .nav-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .nav-pill { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 6px 14px; background: transparent; border: 1px solid var(--border); color: var(--grey); cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block; }
+  .nav-pill:hover { border-color: var(--pink); color: var(--pink); }
+
+  .hero-stats { display: flex; gap: 3rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .hero-stat .num { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: var(--pink); line-height: 1; }
+  .hero-stat .lbl { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; color: var(--grey); text-transform: uppercase; margin-top: 3px; }
+
+  .divider { width: 100%; height: 1px; background: linear-gradient(to right, transparent, #222, transparent); }
+
+  /* SECTIONS */
+  .section { padding: 5rem 2rem; max-width: 900px; margin: 0 auto; }
+  .section-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.35em; color: var(--pink); text-transform: uppercase; margin-bottom: 0.75rem; }
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1; color: var(--white); margin-bottom: 1.25rem; }
+  .section-body { font-size: 1rem; font-weight: 300; color: var(--light-grey); line-height: 1.85; max-width: 680px; }
+
+  /* MODULE TABS */
+  .module-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 0; overflow-x: auto; }
+  .mod-tab { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 0.08em; padding: 1rem 1.5rem; cursor: pointer; color: var(--grey); border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.2s; background: none; border-top: none; border-left: none; border-right: none; }
+  .mod-tab.active { color: var(--pink); border-bottom-color: var(--pink); }
+  .mod-tab:hover { color: var(--white); }
+  .module-content { display: none; padding: 3rem 0; }
+  .module-content.active { display: block; }
+
+  /* MODULE 1 — MONETIZATION MAP */
+  .income-streams { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-top: 2rem; }
+  .stream-card { background: var(--card); border: 1px solid var(--border); padding: 1.75rem; border-top: 3px solid var(--pink); transition: border-color 0.2s; }
+  .stream-card:hover { border-color: var(--pink); }
+  .stream-icon { font-size: 1.75rem; margin-bottom: 0.75rem; }
+  .stream-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--white); margin-bottom: 0.4rem; }
+  .stream-level { display: inline-block; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 8px; margin-bottom: 0.75rem; }
+  .level-beginner { background: rgba(0,232,122,0.15); color: var(--green); }
+  .level-mid { background: rgba(255,214,0,0.15); color: var(--yellow); }
+  .level-advanced { background: rgba(255,45,139,0.15); color: var(--pink); }
+  .stream-desc { font-size: 0.875rem; font-weight: 300; color: var(--grey); line-height: 1.7; margin-bottom: 1rem; }
+  .stream-tip { font-size: 0.8rem; font-weight: 500; color: var(--light-grey); line-height: 1.6; }
+  .stream-tip::before { content: '⚡ '; color: var(--pink); }
+  .stream-earning { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: var(--pink); margin-top: 0.75rem; }
+
+  /* WHICH ONE AM I */
+  .which-quiz { background: var(--card); border: 1px solid var(--border); padding: 2rem; margin-top: 2rem; max-width: 620px; }
+  .which-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--white); margin-bottom: 1rem; }
+  .which-options { display: flex; flex-direction: column; gap: 0.5rem; }
+  .which-opt { display: flex; align-items: flex-start; gap: 0.75rem; background: var(--card2); border: 1px solid var(--border); padding: 1rem; cursor: pointer; transition: border-color 0.2s; }
+  .which-opt:hover { border-color: var(--pink); }
+  .which-opt.selected { border-color: var(--pink); background: rgba(255,45,139,0.05); }
+  .which-opt-label { font-size: 0.85rem; font-weight: 400; color: var(--light-grey); line-height: 1.5; }
+  .which-result { margin-top: 1.5rem; background: var(--card2); border-left: 3px solid var(--pink); padding: 1.25rem 1.5rem; display: none; }
+  .which-result.show { display: block; }
+  .which-result-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: var(--pink); margin-bottom: 0.5rem; }
+  .which-result-body { font-size: 0.875rem; font-weight: 300; color: var(--light-grey); line-height: 1.75; }
+  .which-result-body strong { color: var(--white); }
+
+  /* MODULE 2 — CONTENT TO CASH */
+  .formula-steps { display: flex; flex-direction: column; gap: 1px; background: var(--border); margin-top: 2rem; }
+  .formula-step { background: var(--card); padding: 2rem; display: grid; grid-template-columns: 80px 1fr; gap: 1.5rem; }
+  .formula-step-num { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; color: #1a1a1a; line-height: 1; }
+  .formula-step-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--white); margin-bottom: 0.5rem; }
+  .formula-step-desc { font-size: 0.9rem; font-weight: 300; color: var(--light-grey); line-height: 1.75; }
+  .formula-step-desc strong { color: var(--white); }
+  .formula-step-example { margin-top: 1rem; background: var(--card2); border-left: 2px solid var(--pink); padding: 0.875rem 1.25rem; font-size: 0.85rem; font-style: italic; color: var(--grey); line-height: 1.65; }
+
+  .content-types { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem; }
+  .content-type { background: var(--card); border: 1px solid var(--border); padding: 1.5rem; }
+  .ct-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .ct-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: var(--white); margin-bottom: 0.5rem; }
+  .ct-desc { font-size: 0.82rem; font-weight: 300; color: var(--grey); line-height: 1.65; }
+  .ct-freq { font-size: 0.7rem; font-weight: 700; color: var(--pink); margin-top: 0.75rem; letter-spacing: 0.1em; }
+
+  /* MODULE 3 — 30 HOOKS */
+  .hooks-filter { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .hf-btn { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; background: transparent; border: 1px solid var(--border); color: var(--grey); cursor: pointer; transition: all 0.2s; }
+  .hf-btn.active, .hf-btn:hover { border-color: var(--pink); color: var(--pink); }
+  .hooks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1px; background: var(--border); }
+  .hook-card { background: var(--card); padding: 1.5rem; cursor: pointer; transition: background 0.15s; }
+  .hook-card:hover { background: #1a1a1a; }
+  .hook-cat { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; color: var(--pink); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .hook-text { font-size: 0.9rem; color: var(--light-grey); font-weight: 300; line-height: 1.65; font-style: italic; margin-bottom: 0.75rem; }
+  .hook-copy { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; color: var(--grey); text-transform: uppercase; background: none; border: none; cursor: pointer; padding: 0; transition: color 0.2s; }
+  .hook-card:hover .hook-copy { color: var(--pink); }
+
+  /* MODULE 4 — WEEKLY RHYTHM */
+  .week-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1px; background: var(--border); margin-top: 2rem; }
+  .week-day { background: var(--card); padding: 1.5rem 1.25rem; }
+  .week-day-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--white); margin-bottom: 0.25rem; }
+  .week-day-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; color: var(--pink); text-transform: uppercase; margin-bottom: 1rem; }
+  .week-post { background: var(--card2); border: 1px solid var(--border); padding: 0.875rem; margin-bottom: 0.5rem; }
+  .week-post-time { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; color: var(--grey); text-transform: uppercase; margin-bottom: 0.25rem; }
+  .week-post-type { font-size: 0.75rem; font-weight: 500; color: var(--light-grey); line-height: 1.4; }
+  .week-post-type span { color: var(--pink); }
+
+  .rhythm-rules { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+  .rhythm-rule { background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--pink); padding: 1.25rem 1.5rem; display: flex; gap: 1rem; align-items: flex-start; }
+  .rhythm-rule-num { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--pink); line-height: 1; flex-shrink: 0; }
+  .rhythm-rule-text { font-size: 0.9rem; font-weight: 300; color: var(--light-grey); line-height: 1.7; }
+  .rhythm-rule-text strong { color: var(--white); }
+
+  /* MODULE 5 — 30 DAY PLAN */
+  .plan-phases { display: flex; flex-direction: column; gap: 2rem; margin-top: 2rem; }
+  .plan-phase { background: var(--card); border: 1px solid var(--border); overflow: hidden; }
+  .phase-header { background: var(--pink); padding: 1.25rem 1.75rem; display: flex; justify-content: space-between; align-items: center; }
+  .phase-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: #000; letter-spacing: 0.05em; }
+  .phase-days { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; color: rgba(0,0,0,0.6); text-transform: uppercase; }
+  .phase-body { padding: 1.75rem; }
+  .phase-goal { font-size: 0.875rem; font-weight: 500; color: var(--light-grey); line-height: 1.7; margin-bottom: 1.5rem; }
+  .phase-goal strong { color: var(--white); }
+  .phase-tasks { display: flex; flex-direction: column; gap: 0.5rem; }
+  .phase-task { display: flex; align-items: flex-start; gap: 0.875rem; padding: 0.875rem 1rem; background: var(--card2); border: 1px solid var(--border); cursor: pointer; transition: border-color 0.2s; }
+  .phase-task.done { opacity: 0.5; }
+  .task-check { width: 18px; height: 18px; border: 1.5px solid #333; flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin-top: 2px; transition: all 0.2s; }
+  .phase-task.done .task-check { background: var(--green); border-color: var(--green); }
+  .task-check::after { content: '✓'; color: #000; font-size: 0.65rem; font-weight: 700; opacity: 0; }
+  .phase-task.done .task-check::after { opacity: 1; }
+  .task-day { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; color: var(--pink); text-transform: uppercase; flex-shrink: 0; min-width: 40px; margin-top: 2px; }
+  .task-text { font-size: 0.875rem; font-weight: 300; color: var(--light-grey); line-height: 1.6; }
+  .task-text strong { color: var(--white); }
+
+  .plan-progress { background: var(--card); border: 1px solid var(--border); padding: 1.5rem; margin-bottom: 2rem; }
+  .pp-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; color: var(--grey); text-transform: uppercase; margin-bottom: 0.75rem; }
+  .pp-bar-wrap { background: #1a1a1a; height: 6px; margin-bottom: 0.5rem; }
+  .pp-bar-fill { height: 100%; background: linear-gradient(to right, var(--pink), #FF80B5); transition: width 0.4s; }
+  .pp-count { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--pink); }
+
+  /* STRIP */
+  .pink-strip { background: var(--pink); padding: 2rem; text-align: center; }
+  .pink-strip p { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.5rem, 4vw, 2.5rem); color: #000; }
+
+  .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); background: var(--pink); color: #000; font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 0.15em; padding: 0.75rem 2rem; opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 999; }
+  .toast.show { opacity: 1; }
+
+  footer { background: var(--off-black); padding: 3rem 2rem; text-align: center; border-top: 1px solid var(--border); }
+  .footer-brand { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.2em; color: var(--pink); margin-bottom: 0.4rem; }
+  .footer-sub { font-size: 0.7rem; color: var(--grey); letter-spacing: 0.1em; }
+
+  @media (max-width: 600px) {
+    .formula-step { grid-template-columns: 50px 1fr; }
+    .formula-step-num { font-size: 2.5rem; }
+    .week-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span>POST. SELL. REPEAT.</span><span> · </span><span>@MOMFLUENCEAVENUE</span><span> · </span><span>CONTENT TO CASH SYSTEM</span><span> · </span><span>5 MODULES</span><span> · </span><span>30 HOOKS</span><span> · </span><span>30-DAY ACTION PLAN</span><span> · </span><span>POST. SELL. REPEAT.</span><span> · </span><span>@MOMFLUENCEAVENUE</span><span> · </span>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-eyebrow">@momfluenceavenue · Content-to-Cash System · $27</p>
+  <h1 class="hero-title">POST.<span class="p">SELL.</span>REPEAT.</h1>
+  <p class="hero-sub">The system that turns every video you post into a step toward a sale. Not some of them. <strong>All of them.</strong> This is the blueprint I built after learning the hard way that talent without a system is just content creation.</p>
+
+  <div class="welcome-note">
+    <p>Welcome to the system I wish I had when I grew Hot Topics Daily to 200,000 visitors with no way to repeat it. Everything in here is what I know works — <strong>not theory, not what I read somewhere, not what worked for someone else.</strong> The monetization map, the formula, the hooks, the rhythm, the plan — all of it is built for the creator who is ready to stop hoping and start earning. Work through each module in order. Then come back to this as your reference every single week.</p>
+    <div class="sig">— Kiki, Founder of @momfluenceavenue</div>
+  </div>
+
+  <div class="nav-pills">
+    <a href="#module1" class="nav-pill">Monetization Map</a>
+    <a href="#module2" class="nav-pill">Content Formula</a>
+    <a href="#module3" class="nav-pill">30 Hooks</a>
+    <a href="#module4" class="nav-pill">Weekly Rhythm</a>
+    <a href="#module5" class="nav-pill">30-Day Plan</a>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num">5</div><div class="lbl">Core Modules</div></div>
+    <div class="hero-stat"><div class="num">30</div><div class="lbl">Done-For-You Hooks</div></div>
+    <div class="hero-stat"><div class="num">30</div><div class="lbl">Day Action Plan</div></div>
+    <div class="hero-stat"><div class="num">$1K</div><div class="lbl">The Goal</div></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- MODULE 1 — MONETIZATION MAP -->
+<div class="section" id="module1">
+  <p class="section-label">Module 01</p>
+  <h2 class="section-title">The Monetization Map</h2>
+  <p class="section-body">Before you build a system you need to know which income stream you are building toward. Not every stream is right for where you are right now — and chasing the wrong one is one of the fastest ways to stay stuck. Here is every real way TikTok creators make money and which one you should start with.</p>
+
+  <div class="income-streams">
+    <div class="stream-card">
+      <div class="stream-icon">📦</div>
+      <div class="stream-name">Digital Products</div>
+      <div><span class="stream-level level-beginner">Best for Beginners</span></div>
+      <div class="stream-desc">PDFs, guides, templates, trackers, interactive files. You create it once and it sells forever. This is the highest margin income stream available to any creator at any follower count. You do not need a big audience. You need a specific audience with a specific problem you can solve.</div>
+      <div class="stream-tip">Start here. A $17–$47 digital product selling to 30 people gets you to $1K.</div>
+      <div class="stream-earning">Potential: $500–$10,000/mo</div>
+    </div>
+    <div class="stream-card">
+      <div class="stream-icon">🔗</div>
+      <div class="stream-name">Affiliate Marketing</div>
+      <div><span class="stream-level level-beginner">Great for Beginners</span></div>
+      <div class="stream-desc">Promote other people's products and earn a commission on every sale. Amazon Associates, LTK, ShareASale, and brand-specific programs all work on TikTok. The key is to only promote things you actually use and believe in — your audience will feel the difference.</div>
+      <div class="stream-tip">Pair affiliate content with your own products for a powerful double income stream.</div>
+      <div class="stream-earning">Potential: $200–$3,000/mo</div>
+    </div>
+    <div class="stream-card">
+      <div class="stream-icon">🎁</div>
+      <div class="stream-name">TikTok Live Gifts</div>
+      <div><span class="stream-level level-beginner">Start Now</span></div>
+      <div class="stream-desc">When you go live your audience can send you virtual gifts that convert to diamonds then to real money. This is the most underused income stream by new creators. You do not need millions of followers. You need a loyal audience that shows up to your lives consistently.</div>
+      <div class="stream-tip">Go live at least 3x per week for 30+ minutes. Teach something real every time.</div>
+      <div class="stream-earning">Potential: $100–$2,000/mo</div>
+    </div>
+    <div class="stream-card">
+      <div class="stream-icon">🤝</div>
+      <div class="stream-name">Brand Deals</div>
+      <div><span class="stream-level level-mid">Mid-Level</span></div>
+      <div class="stream-desc">Brands pay you to feature their products in your content. Even micro-creators with 1K–10K highly engaged followers can land paid deals. The key is a clear niche, consistent content, and a media kit. Start pitching brands in your niche directly — do not wait to be discovered.</div>
+      <div class="stream-tip">Create a one-page media kit with your niche, audience demographics, and engagement rate.</div>
+      <div class="stream-earning">Potential: $200–$5,000 per deal</div>
+    </div>
+    <div class="stream-card">
+      <div class="stream-icon">💼</div>
+      <div class="stream-name">Coaching & Services</div>
+      <div><span class="stream-level level-mid">Mid-Level</span></div>
+      <div class="stream-desc">Your knowledge is a product. 1:1 coaching calls, done-for-you services, group programs — all of these can be sold directly from TikTok. If you have expertise that gets results your audience will pay to access you directly.</div>
+      <div class="stream-tip">A $97 discovery call selling to 11 people hits $1,000. You need less than you think.</div>
+      <div class="stream-earning">Potential: $1,000–$10,000/mo</div>
+    </div>
+    <div class="stream-card">
+      <div class="stream-icon">💰</div>
+      <div class="stream-name">TikTok Creator Fund</div>
+      <div><span class="stream-level level-advanced">Supplement Only</span></div>
+      <div class="stream-desc">TikTok pays you based on views through its creator monetization program. It is real money but it is the lowest-paying stream per hour of effort. Do not build your income strategy around the Creator Fund — build it around your own offers and use Creator Fund as a bonus.</div>
+      <div class="stream-tip">Stack Creator Fund on top of your other income streams. Never rely on it alone.</div>
+      <div class="stream-earning">Potential: $20–$500/mo</div>
+    </div>
+  </div>
+
+  <div class="which-quiz">
+    <div class="which-title">Which Income Stream Should You Start With?</div>
+    <div class="which-options">
+      <div class="which-opt" onclick="whichStream(this, 0)"><div class="which-opt-label">I am brand new — no audience, no product, just starting out</div></div>
+      <div class="which-opt" onclick="whichStream(this, 1)"><div class="which-opt-label">I have been posting for a while but have nothing to sell yet</div></div>
+      <div class="which-opt" onclick="whichStream(this, 2)"><div class="which-opt-label">I have an audience but have not monetized it yet</div></div>
+      <div class="which-opt" onclick="whichStream(this, 3)"><div class="which-opt-label">I have made some money but want to build a more consistent income</div></div>
+    </div>
+    <div class="which-result" id="whichResult">
+      <div class="which-result-title" id="whichTitle"></div>
+      <div class="which-result-body" id="whichBody"></div>
+    </div>
+  </div>
+</div>
+
+<div class="pink-strip"><p>Pick one stream. Build one system. Get to $1K. Then stack.</p></div>
+
+<!-- MODULE 2 — CONTENT TO CASH -->
+<div class="section" id="module2">
+  <p class="section-label">Module 02</p>
+  <h2 class="section-title">The Content-to-Cash Formula</h2>
+  <p class="section-body">Every video you post from here on out needs to follow a structure that moves someone from viewer to buyer. This is not about being salesy. It is about being strategic. Here is the exact formula — and below that, the five content types you need to rotate through every week.</p>
+
+  <div class="formula-steps">
+    <div class="formula-step">
+      <div class="formula-step-num">01</div>
+      <div>
+        <div class="formula-step-name">The Hook — Stop the Scroll</div>
+        <div class="formula-step-desc">Your first 2 seconds determine everything. Lead with a <strong>pain point, a bold statement, or a curiosity gap</strong> — not with your name, not with "hey guys," not with a slow intro. The hook is the only thing standing between your video and the next scroll.</div>
+        <div class="formula-step-example">"If you have been posting on TikTok for 3 months and made zero dollars — this is exactly why."</div>
+      </div>
+    </div>
+    <div class="formula-step">
+      <div class="formula-step-num">02</div>
+      <div>
+        <div class="formula-step-name">The Agitation — Make Them Feel Seen</div>
+        <div class="formula-step-desc">After the hook, <strong>name the problem in detail.</strong> Make your viewer feel like you are describing their exact situation. When someone thinks "she is literally talking about me" they stop scrolling, they watch the whole video, and they trust you enough to buy.</div>
+        <div class="formula-step-example">"You are posting every day. You are using trending sounds. You are doing everything people tell you to do. And your bank account has not changed at all."</div>
+      </div>
+    </div>
+    <div class="formula-step">
+      <div class="formula-step-num">03</div>
+      <div>
+        <div class="formula-step-name">The Value — Give Something Real</div>
+        <div class="formula-step-desc">Give them actual useful information. <strong>Do not be afraid to teach for free.</strong> The more valuable your free content is the more people believe your paid content is worth buying. One real tip beats five vague ones every time.</div>
+        <div class="formula-step-example">"The reason it is not working is that you are posting for views instead of buyers. Viral content and selling content are two completely different things — and you are only making one of them."</div>
+      </div>
+    </div>
+    <div class="formula-step">
+      <div class="formula-step-num">04</div>
+      <div>
+        <div class="formula-step-name">The Bridge — Connect to Your Offer</div>
+        <div class="formula-step-desc">Transition naturally from the free value to your paid offer. <strong>Frame it as the deeper solution</strong> — not a product pitch. "If you want the full breakdown / the complete system / all 30 of these / the step-by-step..."</div>
+        <div class="formula-step-example">"I broke down all 7 of these blockers and the exact fix for each one inside my $17 guide. Everything I just told you is one of them."</div>
+      </div>
+    </div>
+    <div class="formula-step">
+      <div class="formula-step-num">05</div>
+      <div>
+        <div class="formula-step-name">The CTA — Ask for the Sale</div>
+        <div class="formula-step-desc">Say it out loud. Say the product name. Say the price. Say "link in bio." <strong>Confident, clear, direct.</strong> Do not whisper it at the end. Do not say "if you want to." Say "go get it." People follow clear instructions from people they trust.</div>
+        <div class="formula-step-example">"It is $17 and the link is in my bio. Go grab it before your next post."</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:3rem;">
+    <p class="section-label">The 5 Content Types You Need Every Week</p>
+    <div class="content-types">
+      <div class="content-type">
+        <div class="ct-label" style="color:var(--pink)">Pillar 1</div>
+        <div class="ct-name">Growth Content</div>
+        <div class="ct-desc">Designed to reach new people. Broad hooks, relatable topics, trending audio. This is how you fill the top of your funnel with fresh eyes every week.</div>
+        <div class="ct-freq">2x per week</div>
+      </div>
+      <div class="content-type">
+        <div class="ct-label" style="color:var(--blue)">Pillar 2</div>
+        <div class="ct-name">Trust Content</div>
+        <div class="ct-desc">Behind the scenes, your story, honest takes, day in the life. This is what turns a new viewer into someone who feels like they know you — and buys from people they know.</div>
+        <div class="ct-freq">2x per week</div>
+      </div>
+      <div class="content-type">
+        <div class="ct-label" style="color:var(--yellow)">Pillar 3</div>
+        <div class="ct-name">Selling Content</div>
+        <div class="ct-desc">The content-to-cash formula applied directly to your offer. Problem. Agitation. Value. Bridge. CTA. Every selling video follows this structure.</div>
+        <div class="ct-freq">2x per week</div>
+      </div>
+      <div class="content-type">
+        <div class="ct-label" style="color:var(--green)">Pillar 4</div>
+        <div class="ct-name">Education Content</div>
+        <div class="ct-desc">Teach your niche something specific and valuable. Tips, breakdowns, how-tos. This positions you as the expert and makes your paid products feel like the natural next step.</div>
+        <div class="ct-freq">2x per week</div>
+      </div>
+      <div class="content-type">
+        <div class="ct-label" style="color:#FF6B35">Pillar 5</div>
+        <div class="ct-name">Viral / Trending</div>
+        <div class="ct-desc">Use trending sounds, formats, and moments — always tied to your niche. One viral video can bring in 10,000 new eyes on your page. Make sure those eyes see an offer when they arrive.</div>
+        <div class="ct-freq">2x per week</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- MODULE 3 — 30 HOOKS -->
+<div class="section" id="module3">
+  <p class="section-label">Module 03</p>
+  <h2 class="section-title">30 Done-For-You Hooks</h2>
+  <p class="section-body">These are ready to use. Copy them, customize them with your niche details, and post them today. Filter by category. Tap any hook to copy it instantly.</p>
+
+  <div class="hooks-filter">
+    <button class="hf-btn active" onclick="filterHooks('all', this)">All 30</button>
+    <button class="hf-btn" onclick="filterHooks('pain', this)">Pain Point</button>
+    <button class="hf-btn" onclick="filterHooks('curiosity', this)">Curiosity</button>
+    <button class="hf-btn" onclick="filterHooks('story', this)">Story</button>
+    <button class="hf-btn" onclick="filterHooks('sell', this)">Selling</button>
+    <button class="hf-btn" onclick="filterHooks('viral', this)">Viral/POV</button>
+  </div>
+  <div class="hooks-grid" id="hooksGrid"></div>
+</div>
+
+<div class="pink-strip"><p>A great hook is worth more than a perfect video.</p></div>
+
+<!-- MODULE 4 — WEEKLY RHYTHM -->
+<div class="section" id="module4">
+  <p class="section-label">Module 04</p>
+  <h2 class="section-title">The Weekly Posting Rhythm</h2>
+  <p class="section-body">This is the exact weekly structure that balances growth, trust, and selling without burning out your audience or burning yourself out. Post twice a day. Follow this rhythm. Repeat every week for 30 days and watch what happens.</p>
+
+  <div class="week-grid">
+    <div class="week-day">
+      <div class="week-day-name">MON</div>
+      <div class="week-day-label">Foundation Day</div>
+      <div class="week-post"><div class="week-post-time">9 AM</div><div class="week-post-type"><span>Growth Content</span> — broad hook, new audience reach, trending audio in your niche</div></div>
+      <div class="week-post"><div class="week-post-time">7 PM</div><div class="week-post-type"><span>Education Content</span> — teach one specific thing your buyer audience needs to know</div></div>
+    </div>
+    <div class="week-day">
+      <div class="week-day-name">TUE</div>
+      <div class="week-day-label">Trust Day</div>
+      <div class="week-post"><div class="week-post-time">9 AM</div><div class="week-post-type"><span>Trust Content</span> — your story, your journey, behind the scenes of building</div></div>
+      <div class="week-post"><div class="week-post-time">7 PM</div><div class="week-post-type"><span>Selling Content</span> — content-to-cash formula, lead with problem, close with offer</div></div>
+    </div>
+    <div class="week-day">
+      <div class="week-day-name">WED</div>
+      <div class="week-day-label">Value Day</div>
+      <div class="week-post"><div class="week-post-time">9 AM</div><div class="week-post-type"><span>Education Content</span> — deeper dive, tip video, breakdown of a concept your audience struggles with</div></div>
+      <div class="week-post"><div class="week-post-time">7 PM</div><div class="week-post-type"><span>Growth Content</span> — viral/trending format tied to your niche topic</div></div>
+    </div>
+    <div class="week-day">
+      <div class="week-day-name">THU</div>
+      <div class="week-day-label">Story Day</div>
+      <div class="week-post"><div class="week-post-time">9 AM</div><div class="week-post-type"><span>Trust Content</span> — honest take, real moment, something that makes people feel you are a real person not just a brand</div></div>
+      <div class="week-post"><div class="week-post-time">7 PM</div><div class="week-post-type"><span>Selling Content</span> — different angle, different hook, same offer. Show the product, the result, or social proof.</div></div>
+    </div>
+    <div class="week-day">
+      <div class="week-day-name">FRI</div>
+      <div class="week-day-label">Momentum Day</div>
+      <div class="week-post"><div class="week-post-time">9 AM</div><div class="week-post-type"><span>Viral Content</span> — trending sound, POV format, green screen over a relatable post in your niche</div></div>
+      <div class="week-post"><div class="week-post-time">7 PM</div><div class="week-post-type"><span>Selling Content</span> — bundle reminder, product walkthrough, or "here is what you get" style video</div></div>
+    </div>
+    <div class="week-day">
+      <div class="week-day-name">SAT</div>
+      <div class="week-day-label">Connect Day</div>
+      <div class="week-post"><div class="week-post-time">11 AM</div><div class="week-post-type"><span>Trust Content</span> — Q&A, responding to comments, "you asked I answered" style video</div></div>
+      <div class="week-post"><div class="week-post-time">7 PM</div><div class="week-post-type"><span>Growth Content</span> — lightest content of the week, relatable, shareable, entertaining but on-niche</div></div>
+    </div>
+    <div class="week-day">
+      <div class="week-day-name">SUN</div>
+      <div class="week-day-label">Close Day</div>
+      <div class="week-post"><div class="week-post-time">11 AM</div><div class="week-post-type"><span>Story Content</span> — weekly reflection, what you learned, where you are in your journey</div></div>
+      <div class="week-post"><div class="week-post-time">7 PM</div><div class="week-post-type"><span>Selling Content</span> — strongest selling video of the week. Bundle. Full offer. Direct CTA. This is your Sunday close.</div></div>
+    </div>
+  </div>
+
+  <div style="margin-top:2.5rem;">
+    <p class="section-label" style="margin-bottom:1rem;">The Non-Negotiable Rhythm Rules</p>
+    <div class="rhythm-rules">
+      <div class="rhythm-rule"><div class="rhythm-rule-num">01</div><div class="rhythm-rule-text"><strong>Never go more than 2 days without posting.</strong> Consistency builds the algorithm's confidence in your account. The moment you go silent the algorithm stops pushing your content.</div></div>
+      <div class="rhythm-rule"><div class="rhythm-rule-num">02</div><div class="rhythm-rule-text"><strong>Sell at least 3 times per week minimum.</strong> Tuesday night. Thursday night. Sunday night. Every single week. Non-negotiable. You cannot make money you do not ask for.</div></div>
+      <div class="rhythm-rule"><div class="rhythm-rule-num">03</div><div class="rhythm-rule-text"><strong>Batch your content once a week.</strong> Pick one day — Sunday or Monday — and film 7-10 videos. This removes the daily decision of "what do I post today" and removes the "I don't feel like it" problem entirely.</div></div>
+      <div class="rhythm-rule"><div class="rhythm-rule-num">04</div><div class="rhythm-rule-text"><strong>Your best performing video gets remade.</strong> If something hits — a hook, a format, a topic — remake it with a different angle within the same week. Double down on what works instead of constantly reinventing.</div></div>
+      <div class="rhythm-rule"><div class="rhythm-rule-num">05</div><div class="rhythm-rule-text"><strong>Go live at least once per week.</strong> Even 30 minutes. Even with 5 viewers. Live builds the deepest loyalty and opens the door to live gift income on top of your products.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- MODULE 5 — 30 DAY PLAN -->
+<div class="section" id="module5">
+  <p class="section-label">Module 05</p>
+  <h2 class="section-title">The 30-Day $1K Action Plan</h2>
+  <p class="section-body">This is your day-by-day roadmap to your first $1,000. Every task is specific. Every day has a purpose. Check tasks off as you complete them — your progress tracks below. Do not skip ahead. Do not skip days. Trust the system.</p>
+
+  <div class="plan-progress">
+    <div class="pp-label">Your 30-Day Progress</div>
+    <div class="pp-bar-wrap"><div class="pp-bar-fill" id="ppBar" style="width:0%"></div></div>
+    <div class="pp-count"><span id="ppDone">0</span> / <span id="ppTotal">0</span> tasks complete</div>
+  </div>
+
+  <div class="plan-phases" id="planPhases"></div>
+</div>
+
+<div class="pink-strip"><p>The system works. Trust it. Stay in it. Get paid.</p></div>
+
+<footer>
+  <div class="footer-brand">@MOMFLUENCEAVENUE</div>
+  <div class="footer-sub">Post. Sell. Repeat. · Content-to-Cash System · $27 · momfluenceavenue</div>
+</footer>
+
+<div class="toast" id="toast">COPIED ⚡</div>
+
+<script>
+// HOOKS DATA
+const hooks = [
+  { cat: 'pain', text: 'If you have been posting on TikTok for 3 months and made zero dollars — this is exactly why.' },
+  { cat: 'pain', text: 'You are not broke on TikTok because you are not talented. You are broke because nobody told you this.' },
+  { cat: 'pain', text: 'The reason your TikTok has views but no sales is not what you think it is.' },
+  { cat: 'pain', text: 'Stop posting until you watch this. Seriously.' },
+  { cat: 'pain', text: 'I need to tell you something about your TikTok bio that nobody else is going to say.' },
+  { cat: 'pain', text: 'If your follower count is growing but your bank account is not — this is your problem.' },
+  { cat: 'curiosity', text: 'I made my first sale on TikTok with 847 followers. Here is the exact thing I did.' },
+  { cat: 'curiosity', text: 'The one thing that separates creators who make money from creators who just get views.' },
+  { cat: 'curiosity', text: 'Here is what your TikTok bio should actually say — and I will prove it converts better.' },
+  { cat: 'curiosity', text: 'What if you could make $1,000 from TikTok without a single video going viral?' },
+  { cat: 'curiosity', text: 'Three things I would do differently if I had to build my TikTok income from zero today.' },
+  { cat: 'curiosity', text: 'The content type that makes the most money on TikTok is not what most creators are making.' },
+  { cat: 'story', text: 'I grew a blog to 200,000 visitors with no system and then lost everything. Here is what I built instead.' },
+  { cat: 'story', text: 'The moment I realized I had been posting for clout instead of cash — and what changed after.' },
+  { cat: 'story', text: 'I was terrified to start over. So I built the system I wish I had the first time.' },
+  { cat: 'story', text: 'Nobody told me that going viral and making money are two completely different things. Until I figured it out the hard way.' },
+  { cat: 'story', text: 'How I went from 200K organic visitors to starting completely over — and why I am grateful I did.' },
+  { cat: 'story', text: 'The thing that finally clicked for me about making money on TikTok was embarrassingly simple.' },
+  { cat: 'sell', text: 'I made a $17 guide that tells you exactly why your TikTok is not making money. Link is in my bio.' },
+  { cat: 'sell', text: 'If you want the complete content-to-cash system that gets you to your first $1K — it is $27 in my bio.' },
+  { cat: 'sell', text: 'Everything I just talked about is inside my guide. $17. The link has been in my bio this whole time.' },
+  { cat: 'sell', text: 'Your first $1,000 on TikTok is 37 people buying a $27 product. That is it. System is in my bio.' },
+  { cat: 'sell', text: 'I built the tracker, the system, and the diagnostic you need to hit $1K. Bundle is $57. Link in bio.' },
+  { cat: 'sell', text: 'The reason you keep watching videos like this instead of making money is that you do not have the system yet. I have it. Link in bio.' },
+  { cat: 'viral', text: 'POV: you finally stopped posting into the void and started posting with a system.' },
+  { cat: 'viral', text: 'Things nobody tells you about making money on TikTok that I am going to tell you right now.' },
+  { cat: 'viral', text: 'POV: your TikTok just made its first dollar while you were sleeping.' },
+  { cat: 'viral', text: 'What I would tell my past self before she wasted 6 months posting with no strategy.' },
+  { cat: 'viral', text: 'The TikTok advice that actually works vs the advice everyone keeps repeating that does not.' },
+  { cat: 'viral', text: 'Imagine waking up to a sale notification before you even get out of bed. Here is how that happens.' },
+];
+
+let currentFilter = 'all';
+function renderHooks(filter) {
+  const grid = document.getElementById('hooksGrid');
+  grid.innerHTML = '';
+  const filtered = filter === 'all' ? hooks : hooks.filter(h => h.cat === filter);
+  filtered.forEach((h, i) => {
+    const catLabels = { pain: 'Pain Point', curiosity: 'Curiosity', story: 'Story', sell: 'Selling', viral: 'Viral/POV' };
+    const card = document.createElement('div');
+    card.className = 'hook-card';
+    card.innerHTML = `<div class="hook-cat">${catLabels[h.cat]}</div><div class="hook-text">"${h.text}"</div><button class="hook-copy" onclick="copyHook(event, \`${h.text.replace(/`/g, "\\`")}\`)">↗ Copy hook</button>`;
+    grid.appendChild(card);
+  });
+}
+function filterHooks(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.hf-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderHooks(filter);
+}
+function copyHook(e, text) {
+  e.stopPropagation();
+  navigator.clipboard.writeText(text).then(() => showToast());
+}
+renderHooks('all');
+
+// WHICH STREAM
+const streamResults = [
+  { title: 'Start With a Digital Product', body: '<strong>You are in the perfect position</strong> to launch a digital product right now. You do not need an existing audience to make your first sale — you need a clear offer and a strategy to get it in front of the right person. Build a simple $17–$37 guide or template around something you know how to do. Upload it to Gumroad. Put it in your bio. Make your first selling video tomorrow. That is your path.' },
+  { title: 'Build Your Offer Before You Post Another Video', body: 'You have been building an audience with nothing for them to buy. <strong>Stop posting until you have an offer set up.</strong> It does not need to be perfect. It needs to exist. Spend the next 48 hours creating a simple digital product around something you know. Then come back to your content with a real destination for your audience.' },
+  { title: 'Introduce Your Offer This Week', body: 'You have the audience. Now you need to tell them what to do. <strong>Your first selling video needs to go up this week.</strong> Use the content-to-cash formula in Module 2. Lead with their problem, agitate it, give value, bridge to your offer, ask for the sale. Your audience already trusts you — give them something to buy.' },
+  { title: 'Stack Your Income Streams', body: 'You have proof the system works. Now it is time to <strong>add a second income stream on top of what is already working.</strong> If you have been selling digital products, add affiliate links. If you have been doing brand deals, add a coaching offer. Layer them strategically — do not abandon what is working, build on top of it.' },
+];
+function whichStream(el, i) {
+  document.querySelectorAll('.which-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  const result = document.getElementById('whichResult');
+  document.getElementById('whichTitle').textContent = streamResults[i].title;
+  document.getElementById('whichBody').innerHTML = streamResults[i].body;
+  result.classList.add('show');
+}
+
+// 30 DAY PLAN
+const phases = [
+  {
+    title: 'WEEK 1 — BUILD THE FOUNDATION', days: 'Days 1–7', goal: 'This week is about getting everything in place before you post a single selling video. <strong>Do not skip these steps.</strong> The foundation is what everything else is built on.',
+    tasks: [
+      { day: 'Day 1', text: '<strong>Fix your bio.</strong> Use the Bio Builder in the diagnostic guide to write your new converting bio. Update it on TikTok today.' },
+      { day: 'Day 1', text: '<strong>Set up your offer.</strong> Upload your digital product to Gumroad or Stan Store. Get your purchase link. Put it in your bio.' },
+      { day: 'Day 2', text: '<strong>Post your origin story.</strong> Record and post your "who I am and why I built this" video. This is your most important video. Do not overthink it. Just tell your story.' },
+      { day: 'Day 2', text: '<strong>Post a growth video.</strong> Evening post. Use a broad hook and trending audio in your niche. Goal: reach new people.' },
+      { day: 'Day 3', text: '<strong>Post an education video.</strong> Teach one specific thing your buyer audience needs to know right now.' },
+      { day: 'Day 3', text: '<strong>Post your first selling video.</strong> Content-to-cash formula. Hook → Agitate → Value → Bridge → CTA. Your first ask for the sale.' },
+      { day: 'Day 4', text: '<strong>Respond to every comment on every video you have posted so far.</strong> Engagement builds trust. Trust builds buyers.' },
+      { day: 'Day 4', text: '<strong>Post a trust video.</strong> Behind the scenes, a real moment, or a day in the life of building your brand.' },
+      { day: 'Day 5', text: '<strong>Post a viral/trending video</strong> tied to your niche. Use a trending sound with text that speaks directly to your buyer.' },
+      { day: 'Day 5', text: '<strong>Post a second selling video.</strong> Different hook. Same offer. Let people see the offer from a different angle.' },
+      { day: 'Day 6', text: '<strong>Go live for at least 30 minutes.</strong> Talk about your niche, answer questions, mention your product.' },
+      { day: 'Day 7', text: '<strong>Post a week 1 reflection video.</strong> What you learned, where you are, what is coming next. This is relationship-building content.' },
+      { day: 'Day 7', text: '<strong>Post your Sunday close.</strong> Strongest selling video of the week. Full offer. Direct CTA. Bundle mention.' },
+    ]
+  },
+  {
+    title: 'WEEK 2 — GO DEEPER', days: 'Days 8–14', goal: 'Week two is about building on your foundation. You have content out there — now you go deeper with your message, your offer, and your authority in your niche.',
+    tasks: [
+      { day: 'Day 8', text: '<strong>Look at your week 1 analytics.</strong> Which video got the most views? The most comments? The most profile visits? Make a note. That is what you are doing more of.' },
+      { day: 'Day 8', text: '<strong>Post a "common mistake" video.</strong> Name one specific mistake your audience makes and show them the better way.' },
+      { day: 'Day 9', text: '<strong>Remake your best performing video from week 1.</strong> Same topic. Different hook. New angle. Double down on what worked.' },
+      { day: 'Day 9', text: '<strong>Post a selling video featuring a specific module or benefit</strong> inside your product. Go deep on one feature.' },
+      { day: 'Day 10', text: '<strong>Post a "what I would do if I started today" video.</strong> Step-by-step. Specific. This positions you as the guide.' },
+      { day: 'Day 10', text: '<strong>Reach out to 3 people in your niche.</strong> Comment on their videos genuinely. Build community. Collaboration opens doors.' },
+      { day: 'Day 11', text: '<strong>Post a story video about fear and starting over.</strong> Vulnerability is your strongest trust-builder.' },
+      { day: 'Day 11', text: '<strong>Post an income stream breakdown video.</strong> Teach the 6 ways creators make money on TikTok. Subtly reference your products.' },
+      { day: 'Day 12', text: '<strong>Create and post a "before and after" concept video.</strong> Before you had the system. After you have the system.' },
+      { day: 'Day 12', text: '<strong>Post a direct selling video for your lowest price product.</strong> $17 is an easy yes. Lead with the price in the hook.' },
+      { day: 'Day 13', text: '<strong>Go live again.</strong> This time do a mini teaching session on one topic from your niche. Mention the product link at least 3 times during the live.' },
+      { day: 'Day 14', text: '<strong>Post a two-week check-in video.</strong> Show up. Be real. Tell your audience what you have been building.' },
+      { day: 'Day 14', text: '<strong>Post your most aggressive selling video yet.</strong> Bundle. All three products. Savings. CTA. This is your Sunday close.' },
+    ]
+  },
+  {
+    title: 'WEEK 3 — SELL WITH CONFIDENCE', days: 'Days 15–21', goal: 'By week three you have content, you have an offer, and you have an audience starting to build trust with you. <strong>This is the week you stop being afraid to sell.</strong> Make an offer every single day this week.',
+    tasks: [
+      { day: 'Day 15', text: '<strong>Post a "myth vs reality" video</strong> about making money on TikTok. Bust 3 myths. Position your system as the reality.' },
+      { day: 'Day 15', text: '<strong>Sell in your first video of the day</strong> for the first time. Selling is not just for evening posts anymore.' },
+      { day: 'Day 16', text: '<strong>Post a "who this is for" video.</strong> Describe your buyer in detail. When she hears herself she will buy.' },
+      { day: 'Day 16', text: '<strong>Post a FAQ video.</strong> Answer the top 5 questions you get in comments. End every answer with "and the full breakdown is in my bio."' },
+      { day: 'Day 17', text: '<strong>Create a sense of social proof.</strong> Share any results — your own or a buyer\'s. A screenshot, a comment, a testimonial. Real proof converts.' },
+      { day: 'Day 17', text: '<strong>Post a product walkthrough video.</strong> Screen record yourself scrolling through the product. Show the hooks. Show the tracker. Show the real content.' },
+      { day: 'Day 18', text: '<strong>Post a "your first $1K" breakdown video.</strong> Show the math. 37 sales at $27. 59 sales at $17. Less than 18 bundles at $57. Make it feel achievable.' },
+      { day: 'Day 18', text: '<strong>Go live and do a live selling session.</strong> Talk about the problem. Show the product. Take questions. Drop the link.' },
+      { day: 'Day 19', text: '<strong>Post a "sign you need this" video.</strong> List 7 signs someone needs your product. Make each one painfully relatable.' },
+      { day: 'Day 19', text: '<strong>Post a testimonial or results video.</strong> Even if it is your own results. Even if it is a comment someone left. Show proof.' },
+      { day: 'Day 20', text: '<strong>Post a trending format video</strong> with your most powerful hook yet. Go for reach this day.' },
+      { day: 'Day 21', text: '<strong>Post a "3 weeks in" video.</strong> Honest. Real. What you have built. What you have learned. What is next.' },
+      { day: 'Day 21', text: '<strong>Your Sunday close — make it your best yet.</strong> 3 weeks of content built toward this moment. Sell the bundle. Make the ask. Mean it.' },
+    ]
+  },
+  {
+    title: 'WEEK 4 — CLOSE STRONG', days: 'Days 22–30', goal: 'Final week. Everything you have built for 3 weeks leads here. <strong>This is where first-time creators give up and system creators get paid.</strong> Stay in it. Close strong. Hit your $1K.',
+    tasks: [
+      { day: 'Day 22', text: '<strong>Analyze your best 3 performing videos.</strong> What did they have in common? Hook style? Topic? Format? Do all three of those things this week.' },
+      { day: 'Day 22', text: '<strong>Post a "what nobody tells you" video</strong> about your niche topic. These always perform.' },
+      { day: 'Day 23', text: '<strong>Post a "last chance" energy video.</strong> Not a fake countdown — just a reminder. "This system is here. The link has been in my bio. Today is the day you grab it."' },
+      { day: 'Day 23', text: '<strong>Go live for 45 minutes minimum.</strong> Your longest live yet. Build community. Sell confidently. You have earned this.' },
+      { day: 'Day 24', text: '<strong>Post a "compound effect" video.</strong> Talk about how every video you post is a permanent asset still working for you. Then sell.' },
+      { day: 'Day 24', text: '<strong>Create a content plan for month 2.</strong> This system does not end at day 30. Plan your next 30 days while momentum is high.' },
+      { day: 'Day 25', text: '<strong>Post your most vulnerable video yet.</strong> The fear. The doubt. The decision to keep going anyway. This one will hit different.' },
+      { day: 'Day 25', text: '<strong>Promote the bundle again with a breakdown of what someone saves.</strong> $81 separately. $57 together. $24 saved. Show the math.' },
+      { day: 'Day 26', text: '<strong>Post a "things I know now" video.</strong> What you know about making money online that your 30-day-ago self did not.' },
+      { day: 'Day 26', text: '<strong>Reach out to anyone who commented interest in your products.</strong> Direct reply. "It is in my bio whenever you are ready." That is it.' },
+      { day: 'Day 27', text: '<strong>Post a results check-in.</strong> Where are you in Count It? What have you earned? Be transparent. Progress is proof.' },
+      { day: 'Day 28', text: '<strong>Post a "this is only the beginning" video.</strong> Your first $1K is not the destination. It is the proof of concept.' },
+      { day: 'Day 29', text: '<strong>Post your most direct selling video of the entire 30 days.</strong> No lead up. No teaching. Just the offer, the price, and the link. Some people need exactly that.' },
+      { day: 'Day 30', text: '<strong>Post your Day 30 video.</strong> Celebrate it. Be real about what you built. Tell your audience what is next. And keep the link in your bio.' },
+      { day: 'Day 30', text: '<strong>Open Count It and log every dollar you earned this month.</strong> See your progress. See your milestones. Then plan month 2.' },
+    ]
+  }
+];
+
+let taskStates = JSON.parse(localStorage.getItem('psr_tasks') || '{}');
+
+function renderPlan() {
+  const container = document.getElementById('planPhases');
+  container.innerHTML = '';
+  let totalTasks = 0;
+  let doneTasks = 0;
+
+  phases.forEach((phase, pi) => {
+    totalTasks += phase.tasks.length;
+    const phaseEl = document.createElement('div');
+    phaseEl.className = 'plan-phase';
+    const tasksHTML = phase.tasks.map((t, ti) => {
+      const key = `${pi}-${ti}`;
+      const isDone = taskStates[key];
+      if (isDone) doneTasks++;
+      return `<div class="phase-task${isDone ? ' done' : ''}" onclick="toggleTask('${key}', this)"><div class="task-check"></div><div class="task-day">${t.day}</div><div class="task-text">${t.text}</div></div>`;
+    }).join('');
+    phaseEl.innerHTML = `
+      <div class="phase-header">
+        <div class="phase-title">${phase.title}</div>
+        <div class="phase-days">${phase.days}</div>
+      </div>
+      <div class="phase-body">
+        <div class="phase-goal">${phase.goal}</div>
+        <div class="phase-tasks">${tasksHTML}</div>
+      </div>`;
+    container.appendChild(phaseEl);
+  });
+
+  document.getElementById('ppTotal').textContent = totalTasks;
+  document.getElementById('ppDone').textContent = doneTasks;
+  document.getElementById('ppBar').style.width = Math.round((doneTasks / totalTasks) * 100) + '%';
+}
+
+function toggleTask(key, el) {
+  taskStates[key] = !taskStates[key];
+  localStorage.setItem('psr_tasks', JSON.stringify(taskStates));
+  el.classList.toggle('done', taskStates[key]);
+  const allTasks = document.querySelectorAll('.phase-task').length;
+  const doneTasks = document.querySelectorAll('.phase-task.done').length;
+  document.getElementById('ppDone').textContent = doneTasks;
+  document.getElementById('ppBar').style.width = Math.round((doneTasks / allTasks) * 100) + '%';
+}
+
+function showToast() {
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+renderPlan();
+</script>
+</body>
+</html>
