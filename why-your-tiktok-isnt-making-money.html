@@ -1,0 +1,687 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Your TikTok Isn't Making Money — @momfluenceavenue</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a; --off-black: #111; --card: #181818; --card2: #141414;
+    --pink: #FF2D8B; --pink-glow: rgba(255,45,139,0.15); --pink-dim: rgba(255,45,139,0.08);
+    --white: #fff; --grey: #666; --light-grey: #bbb; --border: #1e1e1e;
+    --green: #00E87A;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+
+  /* TICKER */
+  .ticker-wrap { background: var(--black); border-bottom: 1px solid var(--border); overflow: hidden; white-space: nowrap; padding: 9px 0; }
+  .ticker { display: inline-block; animation: ticker 22s linear infinite; }
+  .ticker span { font-family: 'Bebas Neue', sans-serif; font-size: 0.85rem; letter-spacing: 0.2em; color: #2a2a2a; padding: 0 2rem; }
+  .ticker span.p { color: var(--pink); }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* HERO */
+  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 5rem 2rem 4rem; position: relative; overflow: hidden; }
+  .hero::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; height: 500px; background: radial-gradient(ellipse at bottom, var(--pink-glow) 0%, transparent 70%); pointer-events: none; }
+  .hero-badge { display: inline-block; border: 1px solid var(--pink); color: var(--pink); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; padding: 6px 18px; margin-bottom: 2rem; }
+  .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3.5rem, 12vw, 9rem); line-height: 0.9; max-width: 900px; margin-bottom: 1.5rem; }
+  .hero-title .p { color: var(--pink); }
+  .hero-sub { font-size: 1.05rem; font-weight: 300; color: var(--light-grey); max-width: 540px; line-height: 1.75; margin-bottom: 2.5rem; }
+  .hero-sub strong { color: var(--white); }
+  .welcome-note { background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--pink); padding: 1.5rem 2rem; max-width: 600px; text-align: left; margin-bottom: 2.5rem; }
+  .welcome-note p { font-size: 0.95rem; font-weight: 300; color: var(--light-grey); line-height: 1.8; }
+  .welcome-note strong { color: var(--white); }
+  .welcome-note .sig { font-size: 0.85rem; color: var(--pink); font-weight: 700; margin-top: 1rem; }
+
+  /* NAV */
+  .nav-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-top: 1rem; }
+  .nav-pill { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 6px 14px; background: transparent; border: 1px solid var(--border); color: var(--grey); cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block; }
+  .nav-pill:hover { border-color: var(--pink); color: var(--pink); }
+
+  /* DIVIDER */
+  .divider { width: 100%; height: 1px; background: linear-gradient(to right, transparent, #222, transparent); }
+
+  /* SECTION */
+  .section { padding: 5rem 2rem; max-width: 860px; margin: 0 auto; }
+  .section-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.35em; color: var(--pink); text-transform: uppercase; margin-bottom: 0.75rem; }
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1; color: var(--white); margin-bottom: 1.25rem; }
+  .section-body { font-size: 1rem; font-weight: 300; color: var(--light-grey); line-height: 1.85; max-width: 640px; }
+
+  /* BLOCKER CARDS */
+  .blockers { display: flex; flex-direction: column; gap: 0; margin-top: 2.5rem; }
+  .blocker { border-bottom: 1px solid var(--border); }
+  .blocker-header { display: grid; grid-template-columns: 64px 1fr auto; gap: 1rem; align-items: center; padding: 1.75rem 0; cursor: pointer; }
+  .blocker-num { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: #1e1e1e; line-height: 1; transition: color 0.2s; }
+  .blocker.open .blocker-num { color: var(--pink); }
+  .blocker-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.03em; color: var(--white); }
+  .blocker-tag { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; color: var(--pink); text-transform: uppercase; border: 1px solid var(--pink); padding: 3px 10px; white-space: nowrap; }
+  .blocker-arrow { font-size: 1rem; color: var(--grey); transition: transform 0.3s; margin-left: 1rem; }
+  .blocker.open .blocker-arrow { transform: rotate(180deg); color: var(--pink); }
+  .blocker-body { display: none; padding: 0 0 2rem 64px; }
+  .blocker.open .blocker-body { display: block; }
+  .blocker-problem { font-size: 0.95rem; font-weight: 300; color: var(--light-grey); line-height: 1.8; margin-bottom: 1.5rem; }
+  .blocker-problem strong { color: var(--white); }
+
+  /* FIX BOX */
+  .fix-box { background: var(--card2); border: 1px solid var(--border); border-left: 3px solid var(--green); padding: 1.5rem; margin-bottom: 1.5rem; }
+  .fix-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.25em; color: var(--green); text-transform: uppercase; margin-bottom: 0.75rem; }
+  .fix-steps { display: flex; flex-direction: column; gap: 0.6rem; }
+  .fix-step { display: flex; gap: 0.75rem; align-items: flex-start; }
+  .fix-step-num { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: var(--green); line-height: 1.4; flex-shrink: 0; }
+  .fix-step-text { font-size: 0.9rem; font-weight: 300; color: var(--light-grey); line-height: 1.7; }
+  .fix-step-text strong { color: var(--white); }
+
+  /* EXAMPLE BOX */
+  .example-box { background: var(--card); border: 1px solid var(--border); padding: 1.25rem 1.5rem; margin-bottom: 1rem; }
+  .example-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em; color: var(--grey); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .example-bad { font-size: 0.9rem; color: #ff4444; font-weight: 300; line-height: 1.6; margin-bottom: 0.5rem; }
+  .example-good { font-size: 0.9rem; color: var(--green); font-weight: 300; line-height: 1.6; }
+  .example-bad::before { content: '✕ '; font-weight: 700; }
+  .example-good::before { content: '✓ '; font-weight: 700; }
+
+  /* AUDIT */
+  .audit-section { padding: 5rem 2rem; max-width: 860px; margin: 0 auto; }
+  .audit-grid { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 2rem; }
+  .audit-item { display: flex; align-items: center; gap: 1rem; background: var(--card); border: 1px solid var(--border); padding: 1.1rem 1.5rem; cursor: pointer; transition: border-color 0.2s; user-select: none; }
+  .audit-item.checked { border-color: var(--pink); }
+  .audit-check { width: 20px; height: 20px; border: 1.5px solid #333; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+  .audit-item.checked .audit-check { background: var(--pink); border-color: var(--pink); }
+  .audit-check::after { content: '✓'; color: #000; font-size: 0.7rem; font-weight: 700; opacity: 0; }
+  .audit-item.checked .audit-check::after { opacity: 1; }
+  .audit-text { font-size: 0.9rem; color: var(--light-grey); font-weight: 300; flex: 1; }
+  .audit-blocker { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; color: var(--pink); text-transform: uppercase; flex-shrink: 0; }
+  .audit-result { margin-top: 1.5rem; background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--pink); padding: 1.5rem; display: none; }
+  .audit-result.show { display: block; }
+  .audit-result-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--white); margin-bottom: 0.75rem; }
+  .audit-result-body { font-size: 0.9rem; font-weight: 300; color: var(--light-grey); line-height: 1.8; }
+  .audit-result-body strong { color: var(--pink); }
+
+  /* BIO BUILDER */
+  .bio-section { padding: 5rem 2rem; max-width: 860px; margin: 0 auto; }
+  .bio-inputs { display: flex; flex-direction: column; gap: 1rem; max-width: 580px; margin-top: 2rem; }
+  .bio-field { display: flex; flex-direction: column; gap: 0.4rem; }
+  .bio-field label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; color: var(--pink); text-transform: uppercase; }
+  .bio-field small { font-size: 0.75rem; color: var(--grey); font-weight: 300; }
+  .bio-input { background: var(--card); border: 1px solid var(--border); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 0.95rem; padding: 0.85rem 1rem; outline: none; transition: border-color 0.2s; }
+  .bio-input:focus { border-color: var(--pink); }
+  .bio-input::placeholder { color: #333; }
+  .bio-preview-wrap { margin-top: 2rem; max-width: 580px; }
+  .bio-preview-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; color: var(--grey); text-transform: uppercase; margin-bottom: 0.75rem; }
+  .bio-preview-box { background: var(--card); border: 1px solid var(--border); padding: 2rem; min-height: 100px; }
+  .bio-preview-text { font-size: 1rem; color: var(--white); line-height: 1.9; }
+  .bio-empty { color: #2a2a2a; font-style: italic; font-size: 0.9rem; }
+  .copy-bio-btn { margin-top: 1rem; background: var(--pink); color: #000; font-family: 'Bebas Neue', sans-serif; font-size: 0.9rem; letter-spacing: 0.15em; padding: 0.75rem 1.5rem; border: none; cursor: pointer; transition: opacity 0.2s; display: none; }
+  .copy-bio-btn:hover { opacity: 0.85; }
+  .copy-bio-btn.show { display: inline-block; }
+
+  /* CTA BANK */
+  .cta-section { padding: 5rem 2rem; max-width: 860px; margin: 0 auto; }
+  .cta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1px; background: var(--border); margin-top: 2rem; }
+  .cta-card { background: var(--card); padding: 1.5rem; cursor: pointer; transition: background 0.15s; }
+  .cta-card:hover { background: #1a1a1a; }
+  .cta-platform { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.15em; color: var(--pink); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .cta-text { font-size: 0.9rem; color: var(--light-grey); font-weight: 300; line-height: 1.65; font-style: italic; margin-bottom: 0.75rem; }
+  .cta-copy { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; color: var(--grey); text-transform: uppercase; background: none; border: none; cursor: pointer; padding: 0; transition: color 0.2s; }
+  .cta-card:hover .cta-copy { color: var(--pink); }
+
+  /* OFFER WORKSHEET */
+  .offer-section { padding: 5rem 2rem; max-width: 860px; margin: 0 auto; }
+  .offer-steps { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; }
+  .offer-step { background: var(--card); border: 1px solid var(--border); padding: 2rem; }
+  .offer-step-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.25em; color: var(--pink); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .offer-step-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--white); margin-bottom: 0.75rem; }
+  .offer-step-desc { font-size: 0.875rem; font-weight: 300; color: var(--light-grey); line-height: 1.75; margin-bottom: 1rem; }
+  .offer-step-desc strong { color: var(--white); }
+  .offer-input { width: 100%; background: var(--card2); border: 1px solid var(--border); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 0.9rem; padding: 0.85rem 1rem; outline: none; transition: border-color 0.2s; margin-top: 0.5rem; resize: vertical; }
+  .offer-input:focus { border-color: var(--pink); }
+  .offer-input::placeholder { color: #2a2a2a; }
+  .offer-examples { margin-top: 0.75rem; }
+  .offer-example { font-size: 0.8rem; color: var(--grey); font-weight: 300; line-height: 1.6; }
+  .offer-example::before { content: 'e.g. '; color: var(--pink); font-weight: 700; }
+
+  /* PILLAR SECTION */
+  .pillar-section { padding: 5rem 2rem; max-width: 860px; margin: 0 auto; }
+  .pillar-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 2rem; }
+  .pillar-card { background: var(--card); border: 1px solid var(--border); padding: 1.75rem; border-top: 3px solid var(--pink); }
+  .pillar-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: #1e1e1e; line-height: 1; margin-bottom: 0.5rem; }
+  .pillar-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--white); letter-spacing: 0.03em; margin-bottom: 0.5rem; }
+  .pillar-desc { font-size: 0.85rem; font-weight: 300; color: var(--grey); line-height: 1.7; margin-bottom: 1rem; }
+  .pillar-examples { display: flex; flex-direction: column; gap: 0.35rem; }
+  .pillar-ex { font-size: 0.8rem; color: var(--light-grey); font-weight: 300; padding-left: 1rem; position: relative; line-height: 1.5; }
+  .pillar-ex::before { content: '→'; position: absolute; left: 0; color: var(--pink); }
+
+  /* STRIP */
+  .pink-strip { background: var(--pink); padding: 2rem; text-align: center; }
+  .pink-strip p { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.5rem, 4vw, 2.5rem); color: #000; }
+
+  /* TOAST */
+  .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); background: var(--pink); color: #000; font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 0.15em; padding: 0.75rem 2rem; opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 999; }
+  .toast.show { opacity: 1; }
+
+  footer { background: var(--off-black); padding: 3rem 2rem; text-align: center; border-top: 1px solid var(--border); }
+  .footer-brand { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.2em; color: var(--pink); margin-bottom: 0.4rem; }
+  .footer-sub { font-size: 0.7rem; color: var(--grey); letter-spacing: 0.1em; }
+
+  @media (max-width: 600px) {
+    .blocker-header { grid-template-columns: 48px 1fr; }
+    .blocker-body { padding-left: 48px; }
+    .blocker-tag { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span>WHY YOUR TIKTOK ISN'T MAKING MONEY</span><span class="p"> · </span><span>@MOMFLUENCEAVENUE</span><span class="p"> · </span><span>DIAGNOSTIC GUIDE</span><span class="p"> · </span><span>7 BLOCKERS</span><span class="p"> · </span><span>REAL FIXES</span><span class="p"> · </span><span>WHY YOUR TIKTOK ISN'T MAKING MONEY</span><span class="p"> · </span><span>@MOMFLUENCEAVENUE</span><span class="p"> · </span>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">@momfluenceavenue · Diagnostic Guide · $17</div>
+  <h1 class="hero-title">WHY YOUR<br><span class="p">TIKTOK</span><br>ISN'T MAKING<br>MONEY</h1>
+  <p class="hero-sub">You are not broken. You are not untalented. You are not doing it wrong. You are just missing <strong>the specific things nobody ever told you</strong> — and this guide is going to tell you all of them.</p>
+
+  <div class="welcome-note">
+    <p>Welcome. I built this guide because I was you. I grew Hot Topics Daily to <strong>over 200,000 organic visitors</strong> with no system, no blueprint, and no way to repeat what I had built when things slowed down. I lost the momentum and the confidence together. What I needed — and what you are holding right now — is an honest breakdown of why it was not working and <strong>exactly what to do about it.</strong> That is what every page of this guide is.</p>
+    <div class="sig">— Kiki, Founder of @momfluenceavenue</div>
+  </div>
+
+  <div class="nav-pills">
+    <a href="#blockers" class="nav-pill">7 Blockers</a>
+    <a href="#audit" class="nav-pill">Self-Audit</a>
+    <a href="#bio" class="nav-pill">Bio Builder</a>
+    <a href="#ctas" class="nav-pill">10 CTAs</a>
+    <a href="#pillars" class="nav-pill">Content Pillars</a>
+    <a href="#offer" class="nav-pill">Offer Worksheet</a>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- 7 BLOCKERS -->
+<div class="section" id="blockers">
+  <p class="section-label">The Real Reasons</p>
+  <h2 class="section-title">7 Things Blocking<br>Your TikTok Income</h2>
+  <p class="section-body">Not one of these is about your follower count. Not one of them requires you to go viral. Every single one is fixable — today — and the fix is right below each blocker. Tap to expand.</p>
+
+  <div class="blockers">
+
+    <div class="blocker" id="b1">
+      <div class="blocker-header" onclick="toggleBlocker('b1')">
+        <div class="blocker-num">01</div>
+        <div>
+          <div class="blocker-name">You Have No Offer</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.75rem;">
+          <div class="blocker-tag">Foundation</div>
+          <div class="blocker-arrow">↓</div>
+        </div>
+      </div>
+      <div class="blocker-body">
+        <p class="blocker-problem">This is the one most people skip over because they think they need to "build an audience first." That is backwards. <strong>Views do not pay your bills. An offer does.</strong> If someone watches your video, loves it, goes to your profile, and there is nothing to buy — you just entertained them for free. Forever. An offer does not have to be complicated. It can be a $17 PDF, a $27 guide, a $97 coaching call. But there has to be something. You cannot collect money you never ask for.</p>
+        <div class="fix-box">
+          <div class="fix-label">The Fix — Build Your First Offer in 48 Hours</div>
+          <div class="fix-steps">
+            <div class="fix-step"><div class="fix-step-num">1.</div><div class="fix-step-text"><strong>Identify one problem you can solve.</strong> What do people in your life ask you for help with? What do you know how to do that others struggle with? That knowledge is your offer.</div></div>
+            <div class="fix-step"><div class="fix-step-num">2.</div><div class="fix-step-text"><strong>Choose the simplest format.</strong> A PDF guide, a checklist, a template, or a 1:1 call. Do not overthink this. Simple sells.</div></div>
+            <div class="fix-step"><div class="fix-step-num">3.</div><div class="fix-step-text"><strong>Set a price between $7 and $47</strong> for your first digital product. Low enough for an easy yes. High enough to be taken seriously.</div></div>
+            <div class="fix-step"><div class="fix-step-num">4.</div><div class="fix-step-text"><strong>Upload it to Gumroad or Stan Store today.</strong> Get the link. Put it in your bio. You now have an offer.</div></div>
+            <div class="fix-step"><div class="fix-step-num">5.</div><div class="fix-step-text"><strong>Make your first selling video tomorrow.</strong> Lead with the problem. Show the solution. Drop the link. That is the whole video.</div></div>
+          </div>
+        </div>
+        <div class="example-box">
+          <div class="example-label">Real Example</div>
+          <div class="example-bad">Posting 5 videos a week about your morning routine with no product to sell</div>
+          <div class="example-good">Posting 5 videos a week about your morning routine + a $17 "5AM Productive Mom" guide in your bio</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="blocker" id="b2">
+      <div class="blocker-header" onclick="toggleBlocker('b2')">
+        <div class="blocker-num">02</div>
+        <div><div class="blocker-name">Your Bio Doesn't Convert</div></div>
+        <div style="display:flex;align-items:center;gap:0.75rem;">
+          <div class="blocker-tag">Quick Fix</div>
+          <div class="blocker-arrow">↓</div>
+        </div>
+      </div>
+      <div class="blocker-body">
+        <p class="blocker-problem">Your TikTok bio is your storefront. It is the first thing someone sees when they click your profile and it has <strong>one job: tell them who you are, who you help, and what to do next.</strong> Most creator bios look like this: "mom of 3 🌸 coffee + chaos ✨ just vibing 💕 link below" — that bio tells me nothing about what you do or why I should click your link. You are losing sales on your profile page before someone even sees your content.</p>
+        <div class="fix-box">
+          <div class="fix-label">The Fix — The 3-Line Bio Formula</div>
+          <div class="fix-steps">
+            <div class="fix-step"><div class="fix-step-num">Line 1.</div><div class="fix-step-text"><strong>Who you help + what result you give them.</strong> "I help TikTok creators make their first $1,000 with digital products."</div></div>
+            <div class="fix-step"><div class="fix-step-num">Line 2.</div><div class="fix-step-text"><strong>Social proof or a specific hook.</strong> "Grew 200K+ organically. Built the system I wish I had." OR just something that makes you credible and specific.</div></div>
+            <div class="fix-step"><div class="fix-step-num">Line 3.</div><div class="fix-step-text"><strong>One clear CTA with urgency.</strong> "Get your first $1K system below ↓" or "Free guide + products in bio ↓"</div></div>
+          </div>
+        </div>
+        <div class="example-box">
+          <div class="example-label">Before vs After</div>
+          <div class="example-bad">mom life ✨ content creator 💕 sharing my journey 🌸</div>
+          <div class="example-good">Helping creators make their first $1K on TikTok ⚡ Grew 200K+ with no budget · Get the system ↓</div>
+        </div>
+        <p style="font-size:0.85rem;color:var(--grey);margin-top:1rem;font-weight:300;">👇 Scroll to the Bio Builder section below to generate your exact bio right now.</p>
+      </div>
+    </div>
+
+    <div class="blocker" id="b3">
+      <div class="blocker-header" onclick="toggleBlocker('b3')">
+        <div class="blocker-num">03</div>
+        <div><div class="blocker-name">Posting for Views, Not Buyers</div></div>
+        <div style="display:flex;align-items:center;gap:0.75rem;">
+          <div class="blocker-tag">Strategy</div>
+          <div class="blocker-arrow">↓</div>
+        </div>
+      </div>
+      <div class="blocker-body">
+        <p class="blocker-problem">There is a massive difference between content that goes viral and content that makes you money. <strong>Viral content entertains. Selling content solves.</strong> When you jump on every trending sound and create content designed to get views — you attract people who want to be entertained. When you create content designed to solve a specific problem — you attract people who are ready to pay for the solution. Most creators are so focused on views that they never build a buyer audience.</p>
+        <div class="fix-box">
+          <div class="fix-label">The Fix — The Buyer Content Formula</div>
+          <div class="fix-steps">
+            <div class="fix-step"><div class="fix-step-num">1.</div><div class="fix-step-text"><strong>Lead with the pain point.</strong> "If you have been on TikTok for 3 months and made zero dollars — this is why." That hook attracts a buyer not an entertained viewer.</div></div>
+            <div class="fix-step"><div class="fix-step-num">2.</div><div class="fix-step-text"><strong>Agitate the problem.</strong> Make them feel seen. "You have been doing everything right and it is still not working and nobody is telling you the real reason."</div></div>
+            <div class="fix-step"><div class="fix-step-num">3.</div><div class="fix-step-text"><strong>Introduce the solution.</strong> "I made a guide that breaks down exactly why and gives you the fix for each reason. It is $17 and the link is in my bio."</div></div>
+            <div class="fix-step"><div class="fix-step-num">4.</div><div class="fix-step-text"><strong>Make at least 2 out of every 5 videos buyer content.</strong> Not every video needs to sell. But 40% of your content should be leading someone toward a purchase.</div></div>
+          </div>
+        </div>
+        <div class="example-box">
+          <div class="example-label">Viral vs Buyer Content</div>
+          <div class="example-bad">Dancing to a trending audio as a "content creator" — gets views, attracts entertainment seekers</div>
+          <div class="example-good">"3 reasons your TikTok has views but no sales" — gets fewer views, attracts buyers ready to fix it</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="blocker" id="b4">
+      <div class="blocker-header" onclick="toggleBlocker('b4')">
+        <div class="blocker-num">04</div>
+        <div><div class="blocker-name">You're Talking to Everyone</div></div>
+        <div style="display:flex;align-items:center;gap:0.75rem;">
+          <div class="blocker-tag">Niche</div>
+          <div class="blocker-arrow">↓</div>
+        </div>
+      </div>
+      <div class="blocker-body">
+        <p class="blocker-problem">When you try to talk to every woman on TikTok — nobody feels like you are talking to them. <strong>The riches are in the niches</strong> is a cliché because it is true. Specific content builds loyal audiences. Loyal audiences buy. A video that says "5 tips for moms who want to make money on TikTok" will always outperform "5 tips for creators" because the mom who wants to make money on TikTok feels like you made that video specifically for her. That feeling is what drives purchases.</p>
+        <div class="fix-box">
+          <div class="fix-label">The Fix — Find Your Money Niche This Week</div>
+          <div class="fix-steps">
+            <div class="fix-step"><div class="fix-step-num">1.</div><div class="fix-step-text"><strong>Answer three questions:</strong> What problem do I know how to solve? Who has that problem specifically? What would they search to find the answer?</div></div>
+            <div class="fix-step"><div class="fix-step-num">2.</div><div class="fix-step-text"><strong>Get specific with your audience descriptor.</strong> Not "women" — "moms who want to monetize TikTok." Not "entrepreneurs" — "first-time digital product sellers."</div></div>
+            <div class="fix-step"><div class="fix-step-num">3.</div><div class="fix-step-text"><strong>Use your niche in your bio, your hooks, and your captions.</strong> Say their name. "If you are a mom trying to make your first sale on TikTok—" They will stop scrolling because you said exactly who they are.</div></div>
+            <div class="fix-step"><div class="fix-step-num">4.</div><div class="fix-step-text"><strong>Post 7 days of niche-specific content.</strong> Watch what happens to your engagement and your profile visits. Specific always beats broad.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="blocker" id="b5">
+      <div class="blocker-header" onclick="toggleBlocker('b5')">
+        <div class="blocker-num">05</div>
+        <div><div class="blocker-name">You Never Ask for the Sale</div></div>
+        <div style="display:flex;align-items:center;gap:0.75rem;">
+          <div class="blocker-tag">Selling</div>
+          <div class="blocker-arrow">↓</div>
+        </div>
+      </div>
+      <div class="blocker-body">
+        <p class="blocker-problem">This is the one that stings because it is so simple. <strong>You cannot make a sale you never ask for.</strong> Most creators are so afraid of being "salesy" or "annoying" that they hint at their offer, they mention it quietly, they hope people will figure it out on their own. They will not. People need to be told exactly what to do and exactly where to go. A clear, direct, confident ask is not pushy — it is respectful of your audience's time. They came to your page because they need something. Tell them you have it.</p>
+        <div class="fix-box">
+          <div class="fix-label">The Fix — Ask for the Sale Every Time</div>
+          <div class="fix-steps">
+            <div class="fix-step"><div class="fix-step-num">1.</div><div class="fix-step-text"><strong>End every selling video with a clear verbal CTA.</strong> Say the product name. Say the price. Say "link in bio." Out loud. On camera.</div></div>
+            <div class="fix-step"><div class="fix-step-num">2.</div><div class="fix-step-text"><strong>Put the CTA in your caption too.</strong> "Get the full guide for $17 — link in bio." Short. Direct. Specific.</div></div>
+            <div class="fix-step"><div class="fix-step-num">3.</div><div class="fix-step-text"><strong>Use the 10 CTAs in the section below</strong> and rotate them so your selling content never sounds repetitive.</div></div>
+            <div class="fix-step"><div class="fix-step-num">4.</div><div class="fix-step-text"><strong>Do not apologize for selling.</strong> You built something valuable. You deserve to be paid for it. Confidence in your ask is what makes people trust that your product is worth buying.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="blocker" id="b6">
+      <div class="blocker-header" onclick="toggleBlocker('b6')">
+        <div class="blocker-num">06</div>
+        <div><div class="blocker-name">Inconsistent Value Proposition</div></div>
+        <div style="display:flex;align-items:center;gap:0.75rem;">
+          <div class="blocker-tag">Clarity</div>
+          <div class="blocker-arrow">↓</div>
+        </div>
+      </div>
+      <div class="blocker-body">
+        <p class="blocker-problem">Monday you post about your kids. Tuesday a skincare routine. Wednesday you rant about something. Thursday a recipe. Friday a TikTok tip. <strong>Your audience does not know what you stand for, what problem you solve, or what they get from following you.</strong> When someone does not know what you do they follow you for entertainment — and entertainment followers do not buy. Buyers follow accounts that consistently show them one clear thing: "this person solves my specific problem."</p>
+        <div class="fix-box">
+          <div class="fix-label">The Fix — Lock In Your 5 Content Pillars</div>
+          <div class="fix-steps">
+            <div class="fix-step"><div class="fix-step-num">1.</div><div class="fix-step-text"><strong>Choose 5 content themes</strong> that all live inside your niche. Every video you post fits one of these five. No exceptions for at least 30 days.</div></div>
+            <div class="fix-step"><div class="fix-step-num">2.</div><div class="fix-step-text"><strong>Example pillars for a TikTok monetization account:</strong> Origin story / Creator education / Product value / Social proof / Viral/trending content that ties back to your niche.</div></div>
+            <div class="fix-step"><div class="fix-step-num">3.</div><div class="fix-step-text"><strong>Plan your week using your pillars.</strong> Monday = education. Tuesday = story. Wednesday = sell. Thursday = viral. Friday = trust. Consistent. Intentional. Effective.</div></div>
+          </div>
+        </div>
+        <p style="font-size:0.85rem;color:var(--grey);margin-top:1rem;font-weight:300;">👇 See the full Content Pillar breakdown in the section below.</p>
+      </div>
+    </div>
+
+    <div class="blocker" id="b7">
+      <div class="blocker-header" onclick="toggleBlocker('b7')">
+        <div class="blocker-num">07</div>
+        <div><div class="blocker-name">You Have a Vibe, Not a System</div></div>
+        <div style="display:flex;align-items:center;gap:0.75rem;">
+          <div class="blocker-tag">Systems</div>
+          <div class="blocker-arrow">↓</div>
+        </div>
+      </div>
+      <div class="blocker-body">
+        <p class="blocker-problem">I say this with so much love: <strong>vibes do not scale.</strong> Posting when you feel inspired, going on TikTok when you have time, selling when you remember to — that is not a business. That is a hobby that occasionally makes money. A system is what turns a moment of success into a repeatable income stream. It is a posting schedule you stick to. A content plan you follow. A sales cadence that runs whether you feel like selling that day or not. This is the thing I did not have when I lost everything I built — and it is the thing that changes everything when you finally have it.</p>
+        <div class="fix-box">
+          <div class="fix-label">The Fix — Build Your Weekly System</div>
+          <div class="fix-steps">
+            <div class="fix-step"><div class="fix-step-num">1.</div><div class="fix-step-text"><strong>Set your posting schedule and treat it like a job.</strong> 2 videos per day. Morning and evening. Same time every day. Non-negotiable.</div></div>
+            <div class="fix-step"><div class="fix-step-num">2.</div><div class="fix-step-text"><strong>Batch your content.</strong> Film 7-10 videos in one sitting. This removes the "I don't feel like it" excuse from your vocabulary.</div></div>
+            <div class="fix-step"><div class="fix-step-num">3.</div><div class="fix-step-text"><strong>Set a selling cadence.</strong> Every 3rd video mentions your offer. Every Sunday you post a bundle reminder. Every Monday you go live and talk about your products. Schedule it. Then do it.</div></div>
+            <div class="fix-step"><div class="fix-step-num">4.</div><div class="fix-step-text"><strong>Track everything.</strong> Use Count It — the income tracker in the Momfluence Avenue suite — to log every dollar and every post so you can see what is working and do more of it.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="pink-strip"><p>Every single one of these is fixable. Starting today.</p></div>
+
+<!-- SELF AUDIT -->
+<div class="audit-section" id="audit">
+  <p class="section-label">Interactive Self-Audit</p>
+  <h2 class="section-title">Find Your Blockers</h2>
+  <p class="section-body" style="margin-bottom:0;">Check everything that is true for your TikTok right now. Be honest — nobody is watching and this is for you.</p>
+  <div class="audit-grid">
+    <div class="audit-item" onclick="toggleAudit(this)"><div class="audit-check"></div><div class="audit-text">I do not have a product, service, or offer set up yet</div><div class="audit-blocker">Blocker 01</div></div>
+    <div class="audit-item" onclick="toggleAudit(this)"><div class="audit-check"></div><div class="audit-text">My bio does not clearly say who I help or what to do next</div><div class="audit-blocker">Blocker 02</div></div>
+    <div class="audit-item" onclick="toggleAudit(this)"><div class="audit-check"></div><div class="audit-text">Most of my content is trending sounds and lifestyle — not problem-solving</div><div class="audit-blocker">Blocker 03</div></div>
+    <div class="audit-item" onclick="toggleAudit(this)"><div class="audit-check"></div><div class="audit-text">My content could appeal to anyone — I don't have one specific audience</div><div class="audit-blocker">Blocker 04</div></div>
+    <div class="audit-item" onclick="toggleAudit(this)"><div class="audit-check"></div><div class="audit-text">I rarely or never say "link in bio" or direct people to buy something</div><div class="audit-blocker">Blocker 05</div></div>
+    <div class="audit-item" onclick="toggleAudit(this)"><div class="audit-check"></div><div class="audit-text">My content theme changes week to week depending on my mood</div><div class="audit-blocker">Blocker 06</div></div>
+    <div class="audit-item" onclick="toggleAudit(this)"><div class="audit-check"></div><div class="audit-text">I post whenever I feel like it with no real schedule or plan</div><div class="audit-blocker">Blocker 07</div></div>
+  </div>
+  <div class="audit-result" id="auditResult">
+    <div class="audit-result-title" id="auditResultTitle"></div>
+    <div class="audit-result-body" id="auditResultBody"></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- BIO BUILDER -->
+<div class="bio-section" id="bio">
+  <p class="section-label">Bio Formula Builder</p>
+  <h2 class="section-title">Write Your Converting Bio<br>Right Now</h2>
+  <p class="section-body">Fill in the three fields below and watch your new TikTok bio build itself. Then copy it and update your profile today.</p>
+  <div class="bio-inputs">
+    <div class="bio-field">
+      <label>Line 1 — Who You Help + What Result</label>
+      <small>Be specific. The more specific the more it converts.</small>
+      <input class="bio-input" id="bioWho" placeholder="I help TikTok creators make their first $1,000" oninput="buildBio()"/>
+      <div class="offer-examples">
+        <div class="offer-example">I help moms monetize TikTok with digital products</div>
+        <div class="offer-example">I help beginner creators go from 0 to their first sale</div>
+      </div>
+    </div>
+    <div class="bio-field">
+      <label>Line 2 — Your Credibility or Hook</label>
+      <small>What makes you credible? What makes you different? Keep it short and specific.</small>
+      <input class="bio-input" id="bioCred" placeholder="Grew 200K+ organically. Built the system I wish I had." oninput="buildBio()"/>
+      <div class="offer-examples">
+        <div class="offer-example">Former 9-5 now full-time creator. No gatekeeping.</div>
+        <div class="offer-example">$0 to $2K in 60 days using these exact tools.</div>
+      </div>
+    </div>
+    <div class="bio-field">
+      <label>Line 3 — Your Call to Action</label>
+      <small>One action. One link. Make it clear and create urgency.</small>
+      <input class="bio-input" id="bioCta" placeholder="Get your first $1K system below ↓" oninput="buildBio()"/>
+      <div class="offer-examples">
+        <div class="offer-example">Free guide + all products in bio ↓</div>
+        <div class="offer-example">Start your first $1K today — link below ⚡</div>
+      </div>
+    </div>
+  </div>
+  <div class="bio-preview-wrap">
+    <div class="bio-preview-label">Your New Bio</div>
+    <div class="bio-preview-box">
+      <div class="bio-preview-text" id="bioPreview"><span class="bio-empty">Your bio will appear here as you fill in the fields above...</span></div>
+    </div>
+    <button class="copy-bio-btn" id="copyBioBtn" onclick="copyBio()">Copy My Bio →</button>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- 10 CTAs -->
+<div class="cta-section" id="ctas">
+  <p class="section-label">Done-For-You CTAs</p>
+  <h2 class="section-title">10 CTAs That Sell<br>Without Sounding Desperate</h2>
+  <p class="section-body">Copy any of these into your next video caption or say them directly to camera. Rotate through them so your selling content never sounds repetitive. Tap any card to copy.</p>
+  <div class="cta-grid" id="ctaGrid"></div>
+</div>
+
+<div class="divider"></div>
+
+<!-- CONTENT PILLARS -->
+<div class="pillar-section" id="pillars">
+  <p class="section-label">Content Pillar Framework</p>
+  <h2 class="section-title">The 5 Pillars That Turn<br>Followers Into Buyers</h2>
+  <p class="section-body">Every video you post should live inside one of these five pillars. This is how you stay consistent, build a buyer audience, and sell without exhausting your page or your audience.</p>
+  <div class="pillar-grid">
+    <div class="pillar-card">
+      <div class="pillar-num">01</div>
+      <div class="pillar-name">Origin Story</div>
+      <div class="pillar-desc">Your story is your most powerful selling tool. It builds instant trust, makes people feel seen, and positions you as someone who has been where they are and found the way out.</div>
+      <div class="pillar-examples">
+        <div class="pillar-ex">How I grew 200K with no system and what it cost me</div>
+        <div class="pillar-ex">The moment I realized I needed to build differently</div>
+        <div class="pillar-ex">Why I built Momfluence Avenue</div>
+        <div class="pillar-ex">What I wish someone had told me when I started</div>
+      </div>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-num">02</div>
+      <div class="pillar-name">Creator Education</div>
+      <div class="pillar-desc">Teach your audience something valuable for free. This positions you as the expert, builds loyalty, and makes them more likely to buy from you when you make an offer.</div>
+      <div class="pillar-examples">
+        <div class="pillar-ex">Why your TikTok bio is killing your sales</div>
+        <div class="pillar-ex">The difference between viral content and buyer content</div>
+        <div class="pillar-ex">How to find your niche in 24 hours</div>
+        <div class="pillar-ex">The 5 income streams TikTok creators actually use</div>
+      </div>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-num">03</div>
+      <div class="pillar-name">Product Value</div>
+      <div class="pillar-desc">Show your product in action. Walk through what is inside. Read a testimonial. Show the before and after. Let people see exactly what they are getting before they buy.</div>
+      <div class="pillar-examples">
+        <div class="pillar-ex">Here is what is inside Post Sell Repeat</div>
+        <div class="pillar-ex">Watch me use the Count It tracker live</div>
+        <div class="pillar-ex">The 7 blockers inside the diagnostic guide</div>
+        <div class="pillar-ex">Why I priced this at $27 and not $97</div>
+      </div>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-num">04</div>
+      <div class="pillar-name">Social Proof</div>
+      <div class="pillar-desc">Share results — yours and your buyers'. Screenshots, testimonials, milestones, wins. Proof is the fastest way to convert a skeptic into a buyer.</div>
+      <div class="pillar-examples">
+        <div class="pillar-ex">My first sale on TikTok — what it felt like</div>
+        <div class="pillar-ex">She hit $500 in 3 weeks using this system</div>
+        <div class="pillar-ex">Reacting to buyer feedback in real time</div>
+        <div class="pillar-ex">Before and after: her TikTok bio transformation</div>
+      </div>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-num">05</div>
+      <div class="pillar-name">Viral / Trending</div>
+      <div class="pillar-desc">Use trending sounds, formats, and moments — but always tie them back to your niche. This is how you get reach without losing your buyer audience.</div>
+      <div class="pillar-examples">
+        <div class="pillar-ex">POV: you just made your first $1K on TikTok</div>
+        <div class="pillar-ex">Things nobody told me about making money online</div>
+        <div class="pillar-ex">Using trending audio + "if you are a creator who..." text</div>
+        <div class="pillar-ex">Green screen over a viral money/creator post</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- OFFER CLARITY WORKSHEET -->
+<div class="offer-section" id="offer">
+  <p class="section-label">Offer Clarity Worksheet</p>
+  <h2 class="section-title">Build Your First Offer<br>Right Now</h2>
+  <p class="section-body">You do not need to have it all figured out. You need to answer these questions. Your first offer is already inside your answers. Work through each step — your answers save in this session.</p>
+  <div class="offer-steps">
+    <div class="offer-step">
+      <div class="offer-step-label">Step 01</div>
+      <div class="offer-step-title">What Do You Know How to Do?</div>
+      <div class="offer-step-desc">List every skill, experience, or piece of knowledge you have that someone else would want. Do not filter. Do not say "but everyone knows that." Someone who is 3 steps behind you <strong>will pay to skip those steps.</strong></div>
+      <textarea class="offer-input" rows="4" placeholder="e.g. I know how to grow a blog organically, I know how to make content that gets shares, I know how to set up a Gumroad store, I know how to write hooks that stop the scroll..."></textarea>
+    </div>
+    <div class="offer-step">
+      <div class="offer-step-label">Step 02</div>
+      <div class="offer-step-title">Who Needs What You Know?</div>
+      <div class="offer-step-desc">Get specific. <strong>Not "other creators" — which creators?</strong> What stage are they at? What are they struggling with right now? What do they want that they do not have?</div>
+      <textarea class="offer-input" rows="4" placeholder="e.g. New TikTok creators who have been posting for 3+ months but haven't made a dollar yet. They are frustrated, consistent, and ready to do something different..."></textarea>
+      <div class="offer-examples">
+        <div class="offer-example">Moms who want to monetize their lifestyle content</div>
+        <div class="offer-example">Creators with under 5K followers who want their first sale</div>
+      </div>
+    </div>
+    <div class="offer-step">
+      <div class="offer-step-label">Step 03</div>
+      <div class="offer-step-title">What Is the One Thing You Can Teach Them?</div>
+      <div class="offer-step-desc">Pick <strong>one specific transformation.</strong> Not "everything about TikTok" — that is too broad. "How to make your first $1K on TikTok using digital products" — that is a product.</div>
+      <textarea class="offer-input" rows="3" placeholder="My offer will teach someone how to..."></textarea>
+    </div>
+    <div class="offer-step">
+      <div class="offer-step-label">Step 04</div>
+      <div class="offer-step-title">What Format Makes the Most Sense?</div>
+      <div class="offer-step-desc">Choose the format that <strong>best delivers the transformation</strong> and that you can actually create in the next 48 hours. Do not let format be the reason you never launch.</div>
+      <textarea class="offer-input" rows="2" placeholder="PDF guide / Interactive HTML file / Checklist / Template pack / 1:1 coaching call / Video walkthrough..."></textarea>
+    </div>
+    <div class="offer-step">
+      <div class="offer-step-label">Step 05</div>
+      <div class="offer-step-title">What Is Your Price?</div>
+      <div class="offer-step-desc">For a first digital product: <strong>$7–$47 is the sweet spot.</strong> Low enough for an easy yes. High enough to signal real value. Do not underprice yourself because you are afraid nobody will buy — they will not buy because they think cheap equals low value.</div>
+      <textarea class="offer-input" rows="2" placeholder="My price is $____ because the transformation I am delivering is worth at least 3x that to my buyer."></textarea>
+    </div>
+    <div class="offer-step">
+      <div class="offer-step-label">Step 06</div>
+      <div class="offer-step-title">What Is the Name of Your Offer?</div>
+      <div class="offer-step-desc">Your title should <strong>describe the transformation</strong> or create curiosity about the problem. It should be short enough to say in a video hook. It should make someone stop and think "I need that."</div>
+      <textarea class="offer-input" rows="2" placeholder="My offer is called: ______. When someone hears that name they immediately think: ______."></textarea>
+      <div class="offer-examples">
+        <div class="offer-example">Why Your TikTok Isn't Making Money — clearly names the pain point</div>
+        <div class="offer-example">Post. Sell. Repeat. — describes exactly what the system does</div>
+        <div class="offer-example">Count It. — short, memorable, creates curiosity</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pink-strip"><p>You now have everything you need. Go fix it. Today.</p></div>
+
+<footer>
+  <div class="footer-brand">@MOMFLUENCEAVENUE</div>
+  <div class="footer-sub">Why Your TikTok Isn't Making Money · Diagnostic Guide · $17 · momfluenceavenue</div>
+</footer>
+
+<div class="toast" id="toast">COPIED ⚡</div>
+
+<script>
+const ctas = [
+  { platform: 'TikTok Caption + Verbal', text: 'If this resonated with you the full breakdown is in my bio. It is $17 and it is going to change how you post tomorrow.' },
+  { platform: 'TikTok Caption', text: 'Save this. Come back to it. And when you are ready to actually fix it — link in bio.' },
+  { platform: 'Verbal — End of Video', text: 'I made a guide that covers all of this and gives you the exact fix for each one. $17. Link in bio. Grab it before your next post.' },
+  { platform: 'TikTok Caption', text: 'Everything I just talked about is broken down step by step inside my $17 guide. Link in bio. No excuses after this.' },
+  { platform: 'Verbal — Selling Video', text: 'This is not theory. This is the exact system I use and it is sitting in my bio right now for $17. Go get it.' },
+  { platform: 'TikTok Caption', text: 'The reason your TikTok isn\'t making money is in this guide. The fix is too. $17. Link in bio.' },
+  { platform: 'Live / Story', text: 'I drop the link in my bio every single day. If you have been watching and you are ready — go now. It is $17 and you will open it and feel the difference immediately.' },
+  { platform: 'Comment Reply CTA', text: 'Full answer is in my $17 guide — it covers this exact thing plus 6 other blockers. Link in bio.' },
+  { platform: 'Verbal — Soft Sell', text: 'If you want to go deeper on this I have a guide in my bio that breaks it all the way down. $17. Completely worth it.' },
+  { platform: 'Caption — Urgency', text: 'You have been posting without knowing this for too long. $17 in my bio fixes that today. Link is up.' },
+];
+
+const ctaGrid = document.getElementById('ctaGrid');
+ctas.forEach((c, i) => {
+  const card = document.createElement('div');
+  card.className = 'cta-card';
+  card.innerHTML = `<div class="cta-platform">${c.platform}</div><div class="cta-text">"${c.text}"</div><button class="cta-copy" onclick="copyCTA(${i})">↗ Copy this CTA</button>`;
+  ctaGrid.appendChild(card);
+});
+
+function copyCTA(i) {
+  navigator.clipboard.writeText(ctas[i].text).then(() => showToast());
+}
+
+function toggleBlocker(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+
+function toggleAudit(item) {
+  item.classList.toggle('checked');
+  const checked = document.querySelectorAll('.audit-item.checked').length;
+  const result = document.getElementById('auditResult');
+  const title = document.getElementById('auditResultTitle');
+  const body = document.getElementById('auditResultBody');
+  if (checked === 0) { result.classList.remove('show'); return; }
+  result.classList.add('show');
+  if (checked <= 2) {
+    title.textContent = `You have ${checked} active blocker${checked > 1 ? 's' : ''}.`;
+    body.innerHTML = `You are closer than most. But even <strong>${checked} blocker${checked > 1 ? 's' : ''}</strong> can keep your income at zero. Scroll up and open the ones you checked — the fix is right there.`;
+  } else if (checked <= 4) {
+    title.textContent = `${checked} blockers identified. This is fixable.`;
+    body.innerHTML = `This is exactly why your TikTok is not converting yet. <strong>${checked} things</strong> standing between you and your first sale — and every single one has a specific fix above. Start with Blocker 01 and work your way down.`;
+  } else {
+    title.textContent = `${checked} out of 7. Now you know exactly why.`;
+    body.innerHTML = `This is not a talent issue. This is not a luck issue. <strong>This is a system issue</strong> — and you just identified every gap. The fixes are all in this guide. Start with Blockers 01 and 02 today. Do 03 and 04 tomorrow. Finish the rest this week. By next Monday you will be a completely different creator.`;
+  }
+}
+
+function buildBio() {
+  const who = document.getElementById('bioWho').value.trim();
+  const cred = document.getElementById('bioCred').value.trim();
+  const cta = document.getElementById('bioCta').value.trim();
+  const preview = document.getElementById('bioPreview');
+  const btn = document.getElementById('copyBioBtn');
+  if (!who && !cred && !cta) {
+    preview.innerHTML = '<span class="bio-empty">Your bio will appear here as you fill in the fields above...</span>';
+    btn.classList.remove('show'); return;
+  }
+  let lines = [];
+  if (who) lines.push(who);
+  if (cred) lines.push(cred);
+  if (cta) lines.push(cta);
+  preview.innerHTML = lines.join('<br>');
+  btn.classList.add('show');
+}
+
+function copyBio() {
+  const who = document.getElementById('bioWho').value.trim();
+  const cred = document.getElementById('bioCred').value.trim();
+  const cta = document.getElementById('bioCta').value.trim();
+  const text = [who, cred, cta].filter(Boolean).join('\n');
+  navigator.clipboard.writeText(text).then(() => showToast());
+}
+
+function showToast() {
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+</script>
+</body>
+</html>
